@@ -1,0 +1,21 @@
+.project-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 50;
+    padding: 50px;
+    width: 500px;
+}
+
+.project-container {
+    padding-left: 270px;
+}
+
+.modal-project {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-left: 270px;
+}

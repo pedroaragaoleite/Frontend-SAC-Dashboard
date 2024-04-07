@@ -1,0 +1,50 @@
+<app-sidebar></app-sidebar>
+<app-header></app-header>
+
+<div class="dashboard container mx-auto">
+    <div class="dashboard-users mx-auto pt-10 gap-5 columns-3">
+        <div class="dashboard-users-total border w-full flex justify-around items-center p-5 rounded bg-white">
+            <div class="dashboard-avatar rounded p-3">
+                <fa-icon class="dashboard-icon" [icon]="faUsers" style="color: #1E56DB;"></fa-icon>
+            </div>
+            <div class="dashbord-text">
+                <h6 class="font-medium text-sm">Total users</h6>
+                <p class="font-bold text-3xl">{{users.length}}</p>
+                <p class="text-sm">This Year</p>
+            </div>
+        </div>
+        <div class="dashboard-user-inbound border w-full flex justify-around items-center p-5 rounded bg-white">
+            <div class="dashboard-avatar rounded p-3">
+                <fa-icon class="dashboard-icon" [icon]="faUserTie" style="color: #84E1BC;"></fa-icon>
+            </div>
+            <div class="dashbord-text">
+                <h6 class="font-medium text-sm">Total customers</h6>
+                <p class="font-bold text-3xl">{{customers.length}}</p>
+                <p class="text-sm">This Year</p>
+            </div>
+        </div>
+        <div class="dashboard-user-outbound border w-full flex justify-around items-center p-5 rounded bg-white">
+            <div class="dashboard-avatar rounded p-3">
+                <fa-icon class="dashboard-icon" [icon]="faSuitcase" style="color: #FACA15;"></fa-icon>
+            </div>
+            <div class="dashbord-text">
+                <h6 class="font-medium text-sm">Total projects</h6>
+                <p class="font-bold text-3xl">{{projects.length}}</p>
+                <p class="text-sm">This Year</p>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="charts container mx-auto pt-10">
+    <div class="columns-1 md:columns-3 gap-5 mx-auto">
+        <div class="border rounded chart-container bg-white">
+            <canvas id="chart">{{chart}}</canvas>
+        </div>
+        <div class="border rounded chart-container chart-bar bg-white">
+            <canvas id="chartProjects" class="p-5">{{chartProjects}}</canvas>
+        </div>
+        <div class="border rounded chart-container bg-white">
+            <canvas id="chartMonthProjects" class="p-5">{{chartMonthProjects}}</canvas>
+        </div>
+    </div>
+</section>

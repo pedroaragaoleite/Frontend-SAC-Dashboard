@@ -1,0 +1,102 @@
+<main class="task-container">
+    <div class="task-form border border-gray-300 rounded-lg bg-gray-50">
+        <h3 class="mb-5 text-center text-gray-700">{{mode === 'create' ? 'Create task' : 'Update task'}}</h3>
+        <form class="max-w-sm mx-auto" [formGroup]="taskForm">
+            <div class="mb-5">
+                <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project
+                    title</label>
+                <input type="text" id="title"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Task title here..." formControlName="title" required />
+            </div>
+            <div class="flex mb-5 gap-3">
+                <div class="">
+                    <label for="assigned_date"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start
+                        Date</label>
+                    <input type="datetime-local" id="assigned_date" name="assigned_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        formControlName="assigned_date" required />
+                </div>
+                <div class="">
+                    <label for="due_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End
+                        Date</label>
+                    <input type="datetime-local" id="due_date" name="due_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        formControlName="due_date" required />
+                </div>
+            </div>
+            <div class="mb-5 flex gap-3">
+                <div class="w-full">
+                    <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task
+                        status</label>
+
+                    <select id="status" formControlName="status"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option class="" selected>Status</option>
+                        <option value="new">New</option>
+                        <option value="pending">Pending</option>
+                        <option value="in progress">In progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="w-full">
+                    <label for="priority" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Task
+                        priority</label>
+                    <select id="priority" formControlName="priority"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option class="" selected>Priority</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-5 flex gap-3">
+                <div class="w-full">
+                    <label for="user_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
+                        User</label>
+                    <select formControlName="user_id" id="user_id"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        @if(mode === 'edit') {
+                        <option [value]="taskData?.user_id" selected>{{this.username}}</option>
+                        @for(user of filteredUsers; track $index) {
+                        <option [value]="user.id_user">{{user.username}}</option>
+                        }
+                        } @else {
+                        <option value="User">Choose an user</option>
+                        @for(user of filteredUsers; track $index) {
+                        <option [value]="user.id_user">{{user.username}}</option>
+                        }
+                        }
+                    </select>
+                </div>
+                <div class="w-full">
+                    <label for="customer_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
+                        Customer</label>
+                    <select formControlName="customer_id" id="customer_id"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option class="" selected>Customer</option>
+                        @for(customer of customers; track $index) {
+                        <option [value]="customer.id_customer">{{customer.name}}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+
+
+
+
+            <button type="submit" (click)="onSubmit()"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+            <button type="button" (click)="closeModal()"
+                class="mt-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg w-full px-5 py-2.5 border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700
+                 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
+
+        </form>
+    </div>
+</main>
+<div class="modal-overlay w-full h-full fixed bg-gray-100 z-20 top-0 left-0">
+</div>

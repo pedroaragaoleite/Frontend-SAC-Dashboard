@@ -1,0 +1,28 @@
+.users-table {
+    padding: 30px 20px 0px 170px;
+}
+
+.edit-hidden {
+    top: -25px;
+    left: 0px;
+    background: rgb(65, 151, 117);
+    color: white;
+    padding: 1px 3px;
+    border-radius: 5px;
+    visibility: hidden;
+}
+
+.edit-hoover {
+    &:hover .edit-hidden {
+        visibility: visible;
+    }
+}
+
+.btn-edit {
+    width: 30px;
+    height: 30px;
+
+    &:hover fa-icon {
+        color: white;
+    }
+}

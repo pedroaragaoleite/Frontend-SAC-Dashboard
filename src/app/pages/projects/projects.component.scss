@@ -1,0 +1,31 @@
+.projects {
+    padding-left: 170px;
+
+    &-img {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+img {
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.edit-hidden {
+    top: -25px;
+    left: -7px;
+    background: rgb(65, 151, 117);
+    color: white;
+    padding: 1px 3px;
+    border-radius: 5px;
+    visibility: hidden;
+}
+
+.edit-hoover {
+    &:hover .edit-hidden {
+        visibility: visible;
+    }
+}

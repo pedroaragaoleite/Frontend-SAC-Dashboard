@@ -1,0 +1,299 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<main class="profile">
+    <section class="profile-banner relative">
+        <div class="profile-image"></div>
+        <div class="profile-user absolute top-14 inset-x-0 text-center space-y-3">
+            <div class="profile-user_img flex justify-center w-full">
+                <img src="../../../assets/avatars/avatar3.png"
+                    class="w-24 h-24 rounded-full ring-4 ring-white/10 mx-auto" alt="">
+            </div>
+            <div class="profile-user_info text-white">
+                @if(userProfile) {
+                <h4 class="text-base font-semibold">{{userProfile.name}}</h4>
+                <p class="text-xs text-white/50">{{userProfile.email}}</p>
+                }
+
+            </div>
+        </div>
+    </section>
+    <section class="profile-main mt-10 ms-5 me-5 absolute top-72">
+        <div class="flex gap-10 justify-center">
+            <div class="">
+                <div class="profile-about">
+                    <div
+                        class="block rounded-lg border bg-white text-center text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white">
+                        <div class="border-b-2 border-neutral-100 px-4 py-3 dark:border-white/10">
+                            <div class="flex justify-between pt-1">
+                                <p class="font-semibold text-lg">User info</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <ul class="py-2">
+                                @if(userProfile) {
+                                <li>
+                                    <div class="columns-2 text-left">
+                                        <p
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                            Username :</p>
+                                        <p
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                            {{userProfile.name}}</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="columns-2 text-left">
+                                        <p
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                            email :</p>
+                                        <p
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                            {{userProfile.email}}</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="columns-2 text-left">
+                                        <p
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                            Role :</p>
+                                        <p
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                            {{userProfile.role}}</p>
+                                    </div>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-tab bg-white mt-5 rounded border">
+                    <div class="border-b-2 border-neutral-100 px-4 py-3 dark:border-white/10">
+                        <p class="font-semibold text-lg">Active Projects</p>
+                    </div>
+                    <div class="columns-1 p-5">
+                        @for(project of projects; track $index) {
+                        <div class="profile-cards flex flex-wrap gap-5 justify-items-center justify-center mb-5">
+                            <div
+                                class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+                                <div class="flex flex-col gap-3 border-b p-5">
+                                    <div>
+                                        <div class="pt-5">
+                                            <h5 class="mb-1 text-sm font-base text-gray-900 dark:text-white">
+                                                {{project.title}}
+                                            </h5>
+                                        </div>
+                                        <div class="mt-5">
+                                            <div class="flex items-center justify-around">
+                                                @for(brand of project.brands; track $index) {
+                                                <span
+                                                    class="text-sm text-gray-500 font-semibold dark:text-gray-400">{{brand.brand}}</span>
+                                                }
+                                                @for(product of project.products; track $index) {
+                                                <div class="flex flex-col">
+                                                    <span class="text-sm text-gray-500 dark:text-gray-400 ps-5">Sunglass
+                                                        {{product.sunglass_units}}</span>
+                                                    <span class="text-sm text-gray-500 dark:text-gray-400 ps-5">Eyewear
+                                                        {{product.eyewear_units}}</span>
+                                                </div>
+
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex mt-4 md:mt-6 md:mb-6 justify-around">
+                                    <span class="text-xs bg-green-300 ps-2 pt-1 pb-1 pe-2 rounded-full">active</span>
+                                    <div class="flex ps-5 gap-5">
+                                        <div>
+                                            <fa-icon class="" [icon]="faCalendarXmark" style="color: #dbdbdb"></fa-icon>
+                                            <span class="text-xs">10/10/2024</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <!-- End projects tab-->
+                <div class="box-body bg-white border p-5 rounded">
+                    <div id="profile-1"
+                        class=" w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                        role="tabpanel" aria-labelledby="profile-item-1">
+
+
+                        <div class="border-b-2 border-neutral-100 px-4 py-3 dark:border-white/10">
+                            <div class="flex justify-between pt-1">
+                                <p class="font-semibold text-lg">General info</p>
+                                <button id="dropdownButton" data-dropdown-toggle="dropdown"
+                                    class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
+                                    type="button">
+                                    <span class="sr-only">Open dropdown</span>
+                                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor" viewBox="0 0 16 3">
+                                        <path
+                                            d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                    </svg>
+                                </button>
+                                <!-- Dropdown menu -->
+                                <div id="dropdown"
+                                    class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+                                    <ul class="py-2" aria-labelledby="dropdownButton">
+                                        <li>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <h5 class="box-title mb-3 p-5 font-bold text-lg">Basic Information</h5>
+                        <div class="overflow-auto p-5">
+                            <table class="w-full border-0 whitespace-nowrap">
+                                <tbody>
+                                    <tr class="">
+                                        <td class="!p-2 font-medium !text-gray-500 dark:!text-white/70">First name</td>
+                                        <td class="!p-2">:</td>
+                                        <td class="!p-2 !text-gray-500 dark:!text-white/70">Anderson</td>
+                                    </tr>
+                                    <tr class="!border-0">
+                                        <td class="!p-2 font-medium !text-gray-500 dark:!text-white/70">Last Name</td>
+                                        <td class="!p-2">:</td>
+                                        <td class="!p-2 !text-gray-500 dark:!text-white/70">Itumay</td>
+                                    </tr>
+                                    <tr class="!border-0">
+                                        <td class="!p-2 font-medium !text-gray-500 dark:!text-white/70">Birthday</td>
+                                        <td class="!p-2">:</td>
+                                        <td class="!p-2 !text-gray-500 dark:!text-white/70">03 September 1990</td>
+                                    </tr>
+                                    <tr class="!border-0">
+                                        <td class="!p-2 font-medium !text-gray-500 dark:!text-white/70">Gender</td>
+                                        <td class="!p-2">:</td>
+                                        <td class="!p-2 !text-gray-500 dark:!text-white/70">Female</td>
+                                    </tr>
+                                    <tr class="!border-0">
+                                        <td class="!p-2 font-medium !text-gray-500 dark:!text-white/70">Languages</td>
+                                        <td class="!p-2">:</td>
+                                        <td class="!p-2 !text-gray-500 dark:!text-white/70">Telugu ,Hindi , English</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h5 class="box-title mb-3 p-5 font-bold text-lg">Contact Information</h5>
+                        <div class="overflow-auto p-5">
+                            <table class="w-full border-0 whitespace-nowrap">
+                                <tbody>
+                                    <tr class="">
+                                        <td class="!p-2 font-medium !text-gray-500 dark:!text-white/70">Personal Contact
+                                            No</td>
+                                        <td class="!p-2">:</td>
+                                        <td class="!p-2 !text-gray-500 dark:!text-white/70">+123(45)-158-90.</td>
+                                    </tr>
+                                    <tr class="!border-0">
+                                        <td class="!p-2 font-medium !text-gray-500 dark:!text-white/70">Email Id</td>
+                                        <td class="!p-2">:</td>
+                                        <td class="!p-2 !text-gray-500 dark:!text-white/70">andersonitumay&#64;abc.com
+                                        </td>
+                                    </tr>
+                                    <tr class="!border-0">
+                                        <td class="!p-2 font-medium !text-gray-500 dark:!text-white/70">Address</td>
+                                        <td class="!p-2">:</td>
+                                        <td class="!p-2 !text-gray-500 dark:!text-white/70">andersonitumay&#64;abc.com
+                                        </td>
+                                    </tr>
+                                    <tr class="!border-0">
+                                        <td class="!p-2 font-medium !text-gray-500 dark:!text-white/70">Website link
+                                        </td>
+                                        <td class="!p-2">:</td>
+                                        <td class="!p-2 !text-gray-500 dark:!text-white/70">www.andersonitumay.com</td>
+                                    </tr>
+                                    <tr class="!border-0">
+                                        <td class="!p-2 font-medium !text-gray-500 dark:!text-white/70">Linked in link
+                                        </td>
+                                        <td class="!p-2">:</td>
+                                        <td class="!p-2 !text-gray-500 dark:!text-white/70">
+                                            https://in.linkedin.com/andersonitumay
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="profile-tasks col-span-2">
+            <div
+                class="block rounded-lg border bg-white text-center text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white">
+                <div class="border-b-2 border-neutral-100 px-4 py-3 dark:border-white/10">
+                    <p class="font-semibold text-lg">Active tasks</p>
+
+                </div>
+                <div class="">
+                    <div class="tasks-table w-full">
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-2">
+                            <div
+                                class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
+                            </div>
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-3 py-3 tracking-wider text-center">
+                                            Title
+                                        </th>
+                                        <th scope="col" class="px-3 py-3 tracking-wider text-center">
+                                            Due Date
+                                        </th>
+                                        <th scope="col" class="px-3 py-3 tracking-wider text-center">
+                                            Priority
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for(task of tasks; track $index) {
+                                    <tr
+                                        class="bg-white  dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border-b">
+                                        <th scope="row"
+                                            class="flex items-center px-3 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                            <div class="text-center">
+                                                <div class="text-base font-semibold">{{task.title}}</div>
+                                            </div>
+                                        </th>
+                                        <td class="px-3 py-4">
+                                            <div class="text-center font-normal text-gray-500">
+                                                <span>{{task.due_date | date: 'dd/MM/yyyy'}}</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-3 py-4">
+                                            <div class="text-center">
+                                                <span
+                                                    [ngStyle]="{'color': getColor(task.priority), 'background-color': getBgColor(task.priority)}"
+                                                    class="text-sm  font-semibold px-2 py-1 rounded-2xl">
+                                                    {{task.priority}}
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>

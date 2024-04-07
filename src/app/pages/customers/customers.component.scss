@@ -1,0 +1,53 @@
+.customers-table {
+    padding: 30px 20px 0px 170px;
+}
+
+.edit-hidden {
+    top: -25px;
+    left: 0px;
+    background: rgb(65, 151, 117);
+    color: white;
+    padding: 1px 3px;
+    border-radius: 5px;
+    visibility: hidden;
+}
+
+.edit-hoover {
+    &:hover .edit-hidden {
+        visibility: visible;
+    }
+}
+
+.view-hidden {
+    top: -25px;
+    left: -3px;
+    background: rgb(223, 144, 54);
+    color: white;
+    padding: 1px 3px;
+    border-radius: 5px;
+    visibility: hidden;
+}
+
+.view-hoover {
+    &:hover .view-hidden {
+        visibility: visible;
+    }
+}
+
+.btn-edit {
+    width: 30px;
+    height: 30px;
+
+    &:hover fa-icon {
+        color: white;
+    }
+}
+
+.btn-view {
+    width: 30px;
+    height: 30px;
+
+    &:hover fa-icon {
+        color: white;
+    }
+}

@@ -1,0 +1,102 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<main class="projects">
+    <div class="p-5">
+        <div class="projects-title pt-3 flex gap-10 items-center justify-center">
+            <button type="button" (click)="createProjectModal()"
+                class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Create
+                Project</button>
+        </div>
+        <div class="projects-cards pt-10 flex flex-wrap gap-5 justify-items-center justify-center">
+            @for(project of projects; track $index) {
+            <div
+                class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div class="flex justify-end px-4 pt-4 relative">
+                    <button [attr.id]="'dropdownButton' + $index" (click)="toggleMenu($index, $event)"
+                        class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
+                        type="button">
+                        <span class="sr-only">Open dropdown</span>
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 16 3">
+                            <path
+                                d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                        </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    @if(isVisible[$index]) {
+                    <div [attr.id]="'dropdown' + $index" #dropdownMenu
+                        class="z-10 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute mt-6">
+                        <ul class="py-2" aria-labelledby="dropdownButton">
+                            <li>
+                                <a (click)="[editProjectModal(project), toggleMenu($index, $event)] "
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit
+                                    Project</a>
+                            </li>
+                            <li>
+                                <a (click)="deleteProject(project)"
+                                    class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
+                            </li>
+                        </ul>
+                    </div>
+                    }
+
+                </div>
+                <div class="flex flex-col gap-3 border-b pb-5">
+                    <div>
+                        <h3 class="text-left text-md font-medium text-gray-900 dark:text-white border-b ps-5">
+                            {{project.title}}
+                        </h3>
+                    </div>
+                    <div>
+                        <div>
+                            <h5 class="mb-1 text-sm font-base text-gray-900 dark:text-white ps-5">
+                                {{project.description}}
+                            </h5>
+                        </div>
+                        <div class="mt-5">
+                            <div class="flex items-center justify-around">
+                                @for(brand of project.brands; track $index) {
+                                <span class="text-sm text-gray-500 font-semibold dark:text-gray-400 ps-5">
+                                    {{brand.brand}}</span>
+                                }
+                                @for(product of project.products; track $index) {
+                                <div class="flex flex-col">
+                                    <span class="text-sm text-gray-500 dark:text-gray-400 ps-5">Sunglass
+                                        {{product.sunglass_units}}</span>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400 ps-5">Eyewear
+                                        {{product.eyewear_units}}</span>
+                                </div>
+
+                                }
+
+                                <div class="projects-img">
+                                    <img class="mb-3 rounded-full shadow-lg ps-5" src="../../../assets/login pic.webp"
+                                        alt="User Image" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex mt-4 md:mt-6 md:mb-6 ps-5">
+                    <span [ngStyle]="{'background-color': getColor(project.status)}"
+                        class="text-xs bg-green-300 ps-2 pt-1 pb-1 pe-2 rounded-full">{{project.status}}</span>
+                    <div class="flex ps-5 gap-5">
+                        <div>
+                            <fa-icon class="pe-3" [icon]="faCalendar" style="color: #dbdbdb"></fa-icon>
+                            <span>{{project.start_date | date: 'dd/MM/yyyy'}}</span>
+                        </div>
+                        <div>
+                            <fa-icon class="pe-3" [icon]="faCalendarXmark" style="color: #dbdbdb"></fa-icon>
+                            <span>{{project.end_date | date: 'dd/MM/yyyy'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+
+        </div>
+    </div>
+</main>
+@if(showModal) {
+<app-project-modal [mode]="modalMode" [projectData]="project" (modalChanged)="toggleModal()"></app-project-modal>
+}
