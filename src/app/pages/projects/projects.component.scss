@@ -1,5 +1,6 @@
 .projects {
-    padding-left: 170px;
+    padding: 0 20px 0 170px;
+    margin-top: 100px;
 
     &-img {
         width: 25px;
@@ -29,3 +30,26 @@ img {
         visibility: visible;
     }
 }
+
+@media (max-width: 768px) {
+    .projects {
+        padding-left: 75px;
+
+        &-wfull {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .projects {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+// @media screen and (min-width: 400px) and (max-width: 650px) {
+//     .todo-inputs {
+//         margin-top: 10px;
+//     }
+// }
