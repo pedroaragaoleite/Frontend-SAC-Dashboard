@@ -1,5 +1,6 @@
-.users-table {
-    padding: 30px 20px 0px 170px;
+.users {
+    padding: 0 20px 0 170px;
+    margin-top: 100px;
 }
 
 .edit-hidden {
@@ -24,5 +25,28 @@
 
     &:hover fa-icon {
         color: white;
+    }
+}
+
+@media (max-width: 768px) {
+    .users {
+        padding-left: 75px;
+
+        &-wfull {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .users {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 650px) {
+    .users-inputs {
+        margin-top: 10px;
     }
 }
