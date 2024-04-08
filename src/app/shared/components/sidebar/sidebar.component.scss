@@ -1,10 +1,5 @@
 .sidebar {
-    width: 170px;
-    padding-top: 56px;
-
-    &-bg {
-        background-color: #0f2246;
-    }
+    background-color: #0f2246;
 }
 
 a {
@@ -15,8 +10,13 @@ a {
     }
 }
 
-@media (max-width: 1024px) {
-    .sidebar {
-        width: 150px;
-    }
-}
+// @media (max-width: 1024px) {
+//     .sidebar {
+//         width: 150px;
+//     }
+// }
+// @media (max-width: 768px) {
+//     .sidebar {
+//         width: 75px;
+//     }
+// }

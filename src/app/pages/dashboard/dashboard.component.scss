@@ -7,8 +7,8 @@
 }
 
 .dashboard {
-    padding-left: 170px;
-
+   
+    padding-left: 135px;
     &-avatar {
         background: rgb(233, 233, 233);
         display: inline-block;
@@ -17,7 +17,7 @@
 }
 
 .charts {
-    padding-left: 170px;
+    padding-left: 135px;
 
 }
 
@@ -28,7 +28,24 @@
 }
 
 @media (max-width: 768px) {
+    .dashboard {
+        padding-left: 45px;
+    }
+    .charts {
+        padding-left: 45px;
+    }
     .flex-item {
         min-width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    .dashboard {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .charts {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }

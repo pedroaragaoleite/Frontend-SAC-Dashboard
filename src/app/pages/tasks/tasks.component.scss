@@ -1,5 +1,5 @@
 .todo {
-    padding-left: 170px;
+    padding-left: 135px;
 }
 
 .edit-hidden {
@@ -52,8 +52,15 @@
     }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .todo {
-        padding-left: 150px;
+        padding-left: 45px;
+    }
+}
+
+@media (max-width: 640px) {
+    .todo {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }
