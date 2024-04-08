@@ -1,5 +1,7 @@
 .todo {
-    padding-left: 135px;
+    // padding-left: 170px;
+    padding: 0 20px 0 170px;
+    margin-top: 100px;
 }
 
 .edit-hidden {
@@ -54,7 +56,11 @@
 
 @media (max-width: 768px) {
     .todo {
-        padding-left: 45px;
+        padding-left: 75px;
+
+        &-wfull {
+            width: 100%;
+        }
     }
 }
 
@@ -62,5 +68,11 @@
     .todo {
         padding-left: 10px;
         padding-right: 10px;
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 650px) {
+    .todo-inputs {
+        margin-top: 10px;
     }
 }
