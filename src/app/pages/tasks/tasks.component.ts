@@ -159,6 +159,8 @@ export class TasksComponent implements OnInit {
 
             if (user) {
               this.usernames.push(user.username);
+              console.log(this.usernames);
+              
             } else {
               console.log(`No user found for task ${task.id}`);
             }
