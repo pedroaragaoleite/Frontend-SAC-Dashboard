@@ -20,8 +20,8 @@ export class TodoService {
 
   constructor(private http: HttpClient) { }
 
-  getTodos(): Observable<Todo> {
-    return this.http.get<Todo>(`${url}/todos`, httpOptions)
+  getTodos(): Observable<Todo[]> {
+    return this.http.get<Todo[]>(`${url}/todos`, httpOptions)
   }
 
   getTodoByUser(id: number): Observable<Todo> {
