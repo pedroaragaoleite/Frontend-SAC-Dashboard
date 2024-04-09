@@ -20,8 +20,8 @@ export class ProjectsService {
 
   constructor(private http: HttpClient) { }
 
-  getProjects(): Observable<Project> {
-    return this.http.get<Project>(`${url}/campaigns`, httpOptions);
+  getProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>(`${url}/campaigns`, httpOptions);
   }
 
   getProjectByUser(id: number): Observable<Project> {

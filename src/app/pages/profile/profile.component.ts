@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe, NgStyle } from '@angular/common';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { RouterLink } from '@angular/router';
@@ -11,7 +12,6 @@ import { ProjectsService } from '../../core/services/projects/projects.service';
 import { Project } from '../../core/interfaces/project';
 import { TodoService } from '../../core/services/todo/todo.service';
 import { Todo } from '../../core/interfaces/todo';
-import { DatePipe, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-profile',

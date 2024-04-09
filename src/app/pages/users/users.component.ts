@@ -74,6 +74,7 @@ export class UsersComponent implements OnInit {
         next: (res: any) => {
           this.users = res.data;
           this.allUsers = [...this.users];
+          
         }
       })
   }

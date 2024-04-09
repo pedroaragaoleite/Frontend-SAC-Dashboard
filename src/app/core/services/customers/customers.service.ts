@@ -20,8 +20,8 @@ export class CustomersService {
 
   constructor(private http: HttpClient) { }
 
-  getCustomers(): Observable<Customer> {
-    return this.http.get<Customer>(`${url}/customers`, httpOptions);
+  getCustomers(): Observable<Customer[]> {
+    return this.http.get<Customer[]>(`${url}/customers`, httpOptions);
   }
 
   addCustomer(customer: Customer): Observable<Customer> {

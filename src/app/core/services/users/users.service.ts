@@ -25,8 +25,8 @@ export class UsersService {
     return this.http.get<any>(`${url}/roles`, httpOptions);
   }
 
-  getUsers(): Observable<User> {
-    return this.http.get<User>(`${url}/users`, httpOptions);
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${url}/users`, httpOptions);
   }
 
   getOutboundUsers(): Observable<User> {

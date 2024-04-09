@@ -13,6 +13,7 @@ import { faEye, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import { ViewCustomerComponent } from './view-customer/view-customer.component';
 import { TodoService } from '../../core/services/todo/todo.service';
 import { Todo } from '../../core/interfaces/todo';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-customers',
@@ -48,7 +49,7 @@ export class CustomersComponent implements OnInit {
   showErrorDel: boolean = false;
 
 
-  constructor(private todoServices: TodoService, private sharedServices: SharedService, private dbService: DashboardModeService, private customerServices: CustomersService) {
+  constructor(private http: HttpClient, private todoServices: TodoService, private sharedServices: SharedService, private dbService: DashboardModeService, private customerServices: CustomersService) {
     this.dashboardMode = this.dbService.getDashboardMode();
 
     this.searchControl.valueChanges
