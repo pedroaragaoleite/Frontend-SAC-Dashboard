@@ -73,8 +73,6 @@ export class DashboardComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           this.projects = res.data;
-          console.log(this.projects);
-
           this.getStatusProjects(this.projects)
         }
       })

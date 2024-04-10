@@ -23,7 +23,7 @@ describe('TasksComponent', () => {
         ChangeDetectorRef
       ]
     })
-    .compileComponents();
+      .compileComponents();
     fixture = TestBed.createComponent(TasksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -36,13 +36,13 @@ describe('TasksComponent', () => {
   // it('should call getTasks and getUsers on ngOnInit', () => {
   //   spyOn(component, 'getTasks');
   //   spyOn(component, 'getUsers');
-    
-  
+
+
   //   component.ngOnInit();
-  
+
   //   expect(component.getTasks).toHaveBeenCalled();
   //   expect(component.getUsers).toHaveBeenCalled();
-    
+
   // });
 
   // it('should fetch tasks and populate related arrays on getTasks call', () => {
@@ -53,9 +53,9 @@ describe('TasksComponent', () => {
   //     user_id: 1, customer_id: 1 }
   //   ];
   //   spyOn(todoService, 'getTodos').and.returnValue(of( mockTasks ));
-  
+
   //   component.getTasks();
-  
+
   //   expect(component.tasks.length).toBe(2);
   //   expect(component.importantTasks.length).toBe(1);
   //   expect(component.newTasks.length).toBe(1);

@@ -102,14 +102,9 @@ export class AuthService {
         console.log('teste token');
 
         this.currentUserSubject.next(user);
-        // this.isLoggedSubject.next(true);
-        // this.setAuthenticated(true);
-        // console.log(this.currentUserSubject);
       },
       error: () => {
         this.currentUserSubject.next(null);
-        // this.isLoggedSubject.next(false);
-        // this.setAuthenticated(false);
       }
     });
   }

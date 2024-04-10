@@ -80,8 +80,10 @@ export class CustomersComponent implements OnInit {
     this.customerServices.getCustomers()
       .subscribe({
         next: (res: any) => {
-          this.customers = res.data;
+          this.customers = res;
           this.allCustomers = [...this.customers];
+          console.log(res);
+
         },
         error: error => {
           console.error("Error getting customers", error)
@@ -156,7 +158,6 @@ export class CustomersComponent implements OnInit {
   }
 
   viewCustomerModal(customer: Customer): void {
-    console.log(customer);
     this.showCustomer = true;
     this.customer = customer;
   }

@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export interface Todo {
     id_todo?: number,
     title: string,
@@ -7,4 +9,5 @@ export interface Todo {
     priority: string,
     user_id: number,
     customer_id: number,
+    users?: User[]
 }

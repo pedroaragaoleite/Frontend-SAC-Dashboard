@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Todo } from '../../interfaces/todo';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { response } from 'express';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -22,6 +23,7 @@ export class TodoService {
 
   getTodos(): Observable<Todo[]> {
     return this.http.get<Todo[]>(`${url}/todos`, httpOptions)
+
   }
 
   getTodoByUser(id: number): Observable<Todo> {

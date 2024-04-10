@@ -37,6 +37,7 @@ export class TasksComponent implements OnInit {
   actionTasks: Todo[] = [];
   searchControl = new FormControl('');
 
+
   // Select config
   selectControl = new FormControl('Status');
   filterTasks: Todo[] = [];
@@ -47,16 +48,19 @@ export class TasksComponent implements OnInit {
   task: Todo | null = null;
 
   tasks: Todo[] = [];
-  users: User[] = [];
-  usernames: any[] = [];
   importantTasks: Todo[] = [];
   newTasks: Todo[] = [];
   selectTasks: Todo[] = [];
+
+  loggedUserTasks: Todo[] = [];
+
+
 
 
   constructor(private cdRef: ChangeDetectorRef, private sharedServices: SharedService, private dbService: DashboardModeService, private todoService: TodoService, private userServices: UsersService) {
     this.dashboardMode = this.dbService.getDashboardMode();
 
+    console.log(this.dashboardMode);
 
     this.searchControl.valueChanges
       .pipe(
@@ -83,7 +87,6 @@ export class TasksComponent implements OnInit {
       this.getTasks();
     })
     this.getTasks();
-    this.getUsers();
     this.selectStatus();
   }
 
@@ -103,23 +106,32 @@ export class TasksComponent implements OnInit {
       })
   }
 
-  getTasks(): void {
+  getTasks() {
     this.todoService.getTodos()
       .pipe(
         map((res: any) => ({
           tasks: res.data,
+
           filterTasks: res.data,
           allTasks: res.data,
           importantTasks: res.data.filter((task: any) => task.priority === 'high'),
-          newTasks: res.data.filter((task: any) => task.status === 'new')
+          newTasks: res.data.filter((task: any) => task.status === 'new'),
+          loggedUsersTasks: res.data.filter((task: any) => task.users[0].username === this.dashboardMode)
         }))
       )
-      .subscribe(({ tasks, filterTasks, importantTasks, newTasks, allTasks }) => {
+      .subscribe(({ tasks, filterTasks, importantTasks, newTasks, allTasks, loggedUsersTasks }) => {
         this.tasks = tasks;
+        console.log(this.tasks);
+
         this.filterTasks = filterTasks;
         this.allTasks = allTasks;
         this.importantTasks = importantTasks;
         this.newTasks = newTasks;
+        this.loggedUserTasks = loggedUsersTasks;
+
+        console.log(this.loggedUserTasks);
+
+
       });
   }
 
@@ -143,35 +155,7 @@ export class TasksComponent implements OnInit {
     return 'rgba(239,68,68,.2)';
   }
 
-  getUsers(): void {
-    this.userServices.getUsers()
-      .subscribe({
-        next: (res: any) => {
-          this.users = res.data;
 
-          const userMAp = this.users.reduce((acc: { [key: string]: any }, user: any) => {
-            acc[user.id_user] = user;
-            return acc
-          }, {});
-
-          this.tasks.forEach((task: any) => {
-            const user = userMAp[task.user_id];
-
-            if (user) {
-              this.usernames.push(user.username);
-              console.log(this.usernames);
-              
-            } else {
-              console.log(`No user found for task ${task.id}`);
-            }
-          })
-        },
-        error: (error) => {
-          console.error(error);
-        }
-      })
-
-  }
 
   toggleModal() {
     this.showModal = !this.showModal;
@@ -181,7 +165,6 @@ export class TasksComponent implements OnInit {
     this.taskModalMode = 'edit';
     this.showModal = true;
     this.task = task;
-    console.log(task);
   }
 
 

@@ -19,7 +19,7 @@ export interface ProjectProducts {
     id_campaign_product?: number,
     campaign_id?: number,
     brand_id?: number,
-    sunglass_units: number,
-    eyewear_units: number,
+    productA_units: number,
+    productB_units: number,
     brands?: Brand[]
 }

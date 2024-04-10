@@ -59,8 +59,8 @@ export class ProjectModalComponent implements OnInit {
 
       this.productsForm.patchValue({
         brand_id: this.projectData.brands![0].id_brand.toString(),
-        sunglass_units: this.projectData.products![0].sunglass_units.toString(),
-        eyewear_units: this.projectData.products![0].eyewear_units.toString()
+        productA_units: this.projectData.products![0].productA_units.toString(),
+        productB_units: this.projectData.products![0].productB_units.toString()
       })
     }
   }
@@ -80,8 +80,8 @@ export class ProjectModalComponent implements OnInit {
 
   productsForm = this.fb.group({
     brand_id: ['', [Validators.required]],
-    sunglass_units: ['', [Validators.required]],
-    eyewear_units: ['', [Validators.required]]
+    productA_units: ['', [Validators.required]],
+    productB_units: ['', [Validators.required]]
   })
 
   getOutboundUsers(): void {
@@ -118,8 +118,8 @@ export class ProjectModalComponent implements OnInit {
         user_id: Number(this.projectForm.value.user_id!),
         products: [
           {
-            sunglass_units: Number(this.productsForm.value.sunglass_units),
-            eyewear_units: Number(this.productsForm.value.eyewear_units),
+            productA_units: Number(this.productsForm.value.productA_units),
+            productB_units: Number(this.productsForm.value.productB_units),
             brand_id: Number(this.productsForm.value.brand_id)
           }
         ]
