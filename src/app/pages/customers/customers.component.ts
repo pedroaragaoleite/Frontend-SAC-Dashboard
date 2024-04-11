@@ -80,7 +80,7 @@ export class CustomersComponent implements OnInit {
     this.customerServices.getCustomers()
       .subscribe({
         next: (res: any) => {
-          this.customers = res;
+          this.customers = res.data;
           this.allCustomers = [...this.customers];
           console.log(res);
 

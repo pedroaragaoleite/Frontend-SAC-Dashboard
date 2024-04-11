@@ -54,13 +54,11 @@ export class TasksComponent implements OnInit {
 
   loggedUserTasks: Todo[] = [];
 
-
+  currentUser: any | null = null;
 
 
   constructor(private cdRef: ChangeDetectorRef, private sharedServices: SharedService, private dbService: DashboardModeService, private todoService: TodoService, private userServices: UsersService) {
     this.dashboardMode = this.dbService.getDashboardMode();
-
-    console.log(this.dashboardMode);
 
     this.searchControl.valueChanges
       .pipe(
@@ -69,8 +67,6 @@ export class TasksComponent implements OnInit {
       )
       .subscribe(value => {
         const searchValue = value;
-        console.log(searchValue);
-
 
         if (value === '') {
           this.getTasks();
@@ -78,17 +74,20 @@ export class TasksComponent implements OnInit {
 
         const findTasks = this.allTasks.filter(task => task.title?.toLowerCase().includes(searchValue!.toLowerCase()));
         this.filterTasks = findTasks;
-
       });
   }
 
   ngOnInit(): void {
+
+    this.currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+
     this.sharedServices.eventRefresh$.subscribe(() => {
       this.getTasks();
     })
     this.getTasks();
     this.selectStatus();
   }
+
 
   selectStatus() {
     this.selectControl.valueChanges
@@ -100,9 +99,8 @@ export class TasksComponent implements OnInit {
         if (value === 'Status') {
           this.getTasks();
         } else {
-          this.filterTasks = this.tasks.filter(task => task.status?.toLowerCase().includes(value!.toLowerCase()));
+          this.filterTasks = this.tasks.filter((task: any) => task.users[0].username === this.currentUser!.user!.name).filter(task => task.status?.toLowerCase().includes(value!.toLowerCase()));
         }
-
       })
   }
 
@@ -111,27 +109,17 @@ export class TasksComponent implements OnInit {
       .pipe(
         map((res: any) => ({
           tasks: res.data,
-
           filterTasks: res.data,
           allTasks: res.data,
-          importantTasks: res.data.filter((task: any) => task.priority === 'high'),
-          newTasks: res.data.filter((task: any) => task.status === 'new'),
-          loggedUsersTasks: res.data.filter((task: any) => task.users[0].username === this.dashboardMode)
         }))
       )
-      .subscribe(({ tasks, filterTasks, importantTasks, newTasks, allTasks, loggedUsersTasks }) => {
+      .subscribe(({ tasks, filterTasks, allTasks }) => {
         this.tasks = tasks;
-        console.log(this.tasks);
-
-        this.filterTasks = filterTasks;
         this.allTasks = allTasks;
-        this.importantTasks = importantTasks;
-        this.newTasks = newTasks;
-        this.loggedUserTasks = loggedUsersTasks;
-
-        console.log(this.loggedUserTasks);
-
-
+        this.loggedUserTasks = this.tasks.filter((task: any) => task.users[0].username === this.currentUser!.user!.name);
+        this.importantTasks = this.loggedUserTasks.filter(task => task.priority === 'high');
+        this.newTasks = this.loggedUserTasks.filter(task => task.status === 'new');
+        this.filterTasks = this.loggedUserTasks;
       });
   }
 

@@ -5,6 +5,7 @@ import { DashboardModeService } from '../../../core/services/dashboard/dashboard
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faInbox } from '@fortawesome/free-solid-svg-icons';
 import { initFlowbite } from 'flowbite';
+import { SharedService } from '../../../core/services/shared/shared.service';
 
 
 @Component({
@@ -21,17 +22,17 @@ export class SidebarComponent implements OnInit {
   data: any;
   name: any;
 
-  constructor(private router: Router, private authService: AuthService, private dbService: DashboardModeService) {
+  constructor(private sharedServices: SharedService, private router: Router, private authService: AuthService, private dbService: DashboardModeService) {
     this.dashboardMode = this.dbService.getDashboardMode();
     this.data = JSON.parse(localStorage.getItem('user') || 'null');
     this.name = this.data.user.name;
-   }
+  }
 
   ngOnInit(): void {
     initFlowbite();
   }
 
   signOut(): void {
-    this.authService.logOut()
+    this.authService.logOut();
   }
 }

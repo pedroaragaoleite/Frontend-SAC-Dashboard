@@ -23,15 +23,21 @@ export class SharedService {
     this.eventRefresh.next();
   }
 
-  // Shared service to open user modal
-  // private modalActionSource = new BehaviorSubject<{ open: boolean; mode?: 'create' | 'edit'; userData?: User }>({ open: false });
-  // modalAction$: Observable<{ open: boolean; userData?: User; mode?: 'create' | 'edit' }> = this.modalActionSource.asObservable();
 
-  // openModal(mode?: 'create' | 'edit', userData?: User) {
-  //   this.modalActionSource.next({ open: true, mode, userData });
+  // private userSubject: BehaviorSubject<User | null>
+
+  // constructor() {
+  //   const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+  //   console.log(storedUser);
+
+  //   this.userSubject = new BehaviorSubject<User | null>(storedUser)
   // }
 
-  // closeModal() {
-  //   this.modalActionSource.next({ open: false })
+  // getUser(): Observable<User | null> {
+  //   return this.userSubject.asObservable();
+  // }
+
+  // updateUser(user: User | null): void {
+  //   this.userSubject.next(user);
   // }
 }

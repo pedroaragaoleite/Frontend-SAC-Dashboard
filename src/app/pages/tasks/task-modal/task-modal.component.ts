@@ -8,6 +8,7 @@ import { Customer } from '../../../core/interfaces/customer';
 import { CustomersService } from '../../../core/services/customers/customers.service';
 import { DatePipe } from '@angular/common';
 import { TodoService } from '../../../core/services/todo/todo.service';
+import { DashboardModeService } from '../../../core/services/dashboard/dashboard-mode.service';
 
 @Component({
   selector: 'app-task-modal',
@@ -17,7 +18,7 @@ import { TodoService } from '../../../core/services/todo/todo.service';
   styleUrl: './task-modal.component.scss'
 })
 export class TaskModalComponent implements OnInit {
-
+  @Input() modeDashboard: "admin" | "supervisor" | "inbound" | "outbond";
   @Input() mode: "create" | "edit" = "create";
   @Input() taskData: Todo | null = null;
   @Output() modalChanged: EventEmitter<void> = new EventEmitter();
@@ -32,22 +33,27 @@ export class TaskModalComponent implements OnInit {
   taskForm: FormGroup;
 
 
-  constructor(private datePipe: DatePipe, private cdRef: ChangeDetectorRef, private sharedServices: SharedService, private usersService: UsersService, private fb: FormBuilder, private customerServices: CustomersService, private todoServices: TodoService) {
+  constructor(private dbService: DashboardModeService, private datePipe: DatePipe, private cdRef: ChangeDetectorRef, private sharedServices: SharedService, private usersService: UsersService, private fb: FormBuilder, private customerServices: CustomersService, private todoServices: TodoService) {
+    this.modeDashboard = this.dbService.getDashboardMode();
+    console.log(this.modeDashboard);
+
+    const isDisabled = this.modeDashboard.toLowerCase() === 'inbound' || this.modeDashboard.toLowerCase() === 'outbond';
 
     this.taskForm = this.fb.group({
-      title: ['', [Validators.required]],
-      assigned_date: ['', [Validators.required]],
-      due_date: ['', [Validators.required]],
+      title: [{ value: '', disabled: isDisabled }, [Validators.required]],
+      assigned_date: [{ value: '', disabled: isDisabled }, [Validators.required]],
+      due_date: [{ value: '', disabled: isDisabled }, [Validators.required]],
       status: ['Status', [Validators.required]],
-      priority: ['Priority', [Validators.required]],
-      user_id: ['User', [Validators.required]],
-      customer_id: ['Customer', [Validators.required]],
+      priority: [{ value: 'Priority', disabled: isDisabled }, [Validators.required]],
+      user_id: [{ value: 'User', disabled: isDisabled }, [Validators.required]],
+      customer_id: [{ value: 'Customer', disabled: isDisabled }, [Validators.required]],
     })
   }
 
   ngOnInit(): void {
     this.getUsers();
     this.getCustomers();
+
 
     if (this.mode === 'edit' && this.taskData) {
 

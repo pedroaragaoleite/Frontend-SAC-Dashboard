@@ -3,7 +3,8 @@ import { User } from '../../interfaces/user';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
+import { SharedService } from '../shared/shared.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -24,7 +25,7 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private sharedServices: SharedService) {
 
     this.currentUserSubject = new BehaviorSubject<User | null>(JSON.parse(localStorage.getItem('user') || 'null'));
     // this.currentUserSubject = new BehaviorSubject<User | null>(null);
@@ -41,13 +42,12 @@ export class AuthService {
       .pipe(
         map(user => {
           if (user) {
-            console.log(user.data);
             const userData = user.data;
 
             this.currentUserSubject.next({
               username: userData.name,
               role: userData.role,
-              id: userData.id_user
+              id_user: userData.id_user
             })
 
             localStorage.setItem('user', JSON.stringify(userData))
