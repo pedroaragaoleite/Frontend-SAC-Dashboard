@@ -3,7 +3,7 @@ import { User } from '../../interfaces/user';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import { SharedService } from '../shared/shared.service';
 
 const httpOptions = {

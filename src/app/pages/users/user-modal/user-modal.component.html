@@ -8,6 +8,12 @@
                 <input type="username" id="username"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Username here..." formControlName="username" required />
+                @if(registerForm.get('username')?.touched || registerForm.get('username')?.dirty || isSubmitted &&
+                registerForm.get('username')?.errors) {
+                @for(error of validationErrors; track $index) {
+                <p class="input-invalid">{{error}}</p>
+                }
+                }
             </div>
             <div class="mb-5">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
@@ -15,6 +21,12 @@
                 <input type="email" id="email"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Your email here..." formControlName="email" required />
+                @if(registerForm.get('email')?.touched || registerForm.get('email')?.dirty || isSubmitted &&
+                registerForm.get('email')?.errors) {
+                @for(error of validationErrors; track $index) {
+                <p class="input-invalid">{{error}}</p>
+                }
+                }
             </div>
             @if(mode === 'create') {
             <div class="mb-5">
@@ -23,6 +35,23 @@
                 <input type="password" id="password"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     formControlName="password" required />
+
+                @if(registerForm.get('password')?.touched || registerForm.get('password')?.dirty || isSubmitted &&
+                registerForm.get('password')?.errors) {
+                @if(registerForm.get('password')?.errors?.['required']) {
+                <p class="input-invalid">Password is necessary</p>
+                }
+                @if(registerForm.get('password')?.hasError('passwordContent') &&
+                !registerForm.get('password')?.errors?.['required'])
+                {
+                <p class="input-invalid">Password must include uppercase, lowercase, and numeric characters</p>
+                }
+                @if(registerForm.get('password')?.hasError('passwordLength') &&
+                !registerForm.get('password')?.errors?.['required'])
+                {
+                <p class="input-invalid">Password minimium 8 characters</p>
+                }
+                }
             </div>
             }
             <div class="mb-5">

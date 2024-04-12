@@ -6,6 +6,8 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { UsersService } from '../../../core/services/users/users.service';
 import { map } from 'rxjs';
 import { SharedService } from '../../../core/services/shared/shared.service';
+import { emailValidator, passwordValidator } from '../../../validators/customValidator';
+import { FormValidationsService } from '../../../core/services/formValidations/form-validations.service';
 
 @Component({
   selector: 'app-user-modal',
@@ -24,12 +26,18 @@ export class UserModalComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  constructor(private cdRef: ChangeDetectorRef, private sharedServices: SharedService, private usersService: UsersService, private router: Router, private authService: AuthService, private fb: FormBuilder) {
+  validationErrors: string[] = [];
+
+  constructor(private validationService: FormValidationsService, private cdRef: ChangeDetectorRef, private sharedServices: SharedService, private usersService: UsersService, private router: Router, private authService: AuthService, private fb: FormBuilder) {
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required, Validators.min(3)]],
-      email: ['', [Validators.email]],
-      role: ['', [Validators.required]]
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email, emailValidator()]],
+      role: ['Choose a role', [Validators.required]]
     });
+
+    this.registerForm.controls['username'].statusChanges.subscribe(status => {
+      this.validationErrors = this.validationService.getUsernameMessages(this.registerForm.controls['username']);
+    })
   }
 
   ngOnInit(): void {
@@ -45,7 +53,7 @@ export class UserModalComponent implements OnInit {
         role: this.userData.role
       });
     } else if (this.mode === 'create') {
-      this.registerForm.addControl('password', this.fb.control('', [Validators.required, Validators.minLength(8)]));
+      this.registerForm.addControl('password', this.fb.control('', [Validators.required, Validators.minLength(8), passwordValidator()]));
     }
   }
 
