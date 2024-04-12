@@ -36,6 +36,8 @@ export class TodoService {
   }
 
   updateTodo(todo: Todo, id: number): Observable<Todo> {
+    console.log(id);
+
     return this.http.put<Todo>(`${url}/todos/update/${id}`, todo, httpOptions);
   }
 

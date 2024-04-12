@@ -26,7 +26,7 @@ export class UsersComponent implements OnInit {
   faEye = faEye;
   faPenSquare = faPenSquare;
 
-  dashboardMode: "admin" | "supervisor" | "inbound" | "outbond";
+  dashboardMode: "Admin" | "Supervisor" | "Inbound" | "Outbond";
   modalMode: "create" | "edit" = "create";
 
   showModal: boolean = false;
@@ -74,7 +74,7 @@ export class UsersComponent implements OnInit {
         next: (res: any) => {
           this.users = res.data;
           this.allUsers = [...this.users];
-          
+
         }
       })
   }

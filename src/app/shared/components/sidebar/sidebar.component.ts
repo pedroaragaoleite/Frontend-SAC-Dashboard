@@ -16,7 +16,7 @@ import { SharedService } from '../../../core/services/shared/shared.service';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements OnInit {
-  dashboardMode: "admin" | "supervisor" | "inbound" | "outbond";
+  dashboardMode: "Admin" | "Supervisor" | "Inbound" | "Outbond";
 
   faInbox = faInbox;
   data: any;

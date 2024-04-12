@@ -32,7 +32,7 @@ export class CustomersComponent implements OnInit {
   tasks: Todo[] = [];
 
   //Dashboard config
-  dashboardMode: "admin" | "supervisor" | "inbound" | "outbond";
+  dashboardMode: "Admin" | "Supervisor" | "Inbound" | "Outbond";
 
   //Search config
   allCustomers: Customer[] = [];

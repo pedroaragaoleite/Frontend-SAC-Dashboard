@@ -23,7 +23,7 @@ import { Chart, ChartConfiguration, ChartType } from 'chart.js/auto';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
-  dashboardMode: 'admin' | 'supervisor' | 'inbound' | 'outbond';
+  dashboardMode: 'Admin' | 'Supervisor' | 'Inbound' | 'Outbond';
   faUserTie = faUserTie;
   faUsers = faUsers;
   faSuitcase = faSuitcase;

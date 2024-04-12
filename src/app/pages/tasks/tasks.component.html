@@ -8,7 +8,7 @@
             <div
                 class="w-full p-5 flex  flex-col bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div class="">
-                    @if(this.dashboardMode === 'admin' || this.dashboardMode === 'supervisor') {
+                    @if(this.dashboardMode === 'Admin' || this.dashboardMode === 'Supervisor') {
                     <div class="w-full p-4">
                         <button type="button" (click)="createTaskModal()"
                             class="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add
@@ -79,7 +79,7 @@
             <div class="tasks-table relative overflow-x-auto shadow-md rounded-lg border">
                 <div
                     class="flex items-center justify-between flex-column flex-wrap md:flex-row pb-4 bg-white dark:bg-gray-900 p-5">
-                    @if(this.dashboardMode === 'admin' || this.dashboardMode === 'supervisor') {
+                    @if(this.dashboardMode === 'Admin' || this.dashboardMode === 'Supervisor') {
 
                     <div class="">
                         <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction"
@@ -146,6 +146,7 @@
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
+                            @if(this.dashboardMode === 'Admin' || this.dashboardMode === 'Supervisor') {
                             <th scope="col" class="p-4">
                                 <div class="flex items-center">
                                     <input id="checkbox-all-search" type="checkbox"
@@ -153,6 +154,7 @@
                                     <label for="checkbox-all-search" class="sr-only">checkbox</label>
                                 </div>
                             </th>
+                            }
                             <th scope="col" class="px-3 py-3 tracking-wider text-center">
                                 Title
                             </th>
@@ -180,6 +182,7 @@
                         @for(task of filterTasks; track $index) {
                         <tr
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            @if(this.dashboardMode === 'Admin' || this.dashboardMode === 'Supervisor') {
                             <td class="w-4 p-4">
                                 <div class="flex items-center">
                                     <input id="checkbox-table-search-1" type="checkbox"
@@ -188,8 +191,9 @@
                                     <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                                 </div>
                             </td>
+                            }
                             <th scope="row"
-                                class="flex items-center ps-3 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                class="flex items-center ps-5 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                 <div class="text-center">
                                     <div class="text-xs font-semibold">{{task.title}}</div>
                                 </div>

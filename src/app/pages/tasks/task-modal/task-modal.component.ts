@@ -18,7 +18,7 @@ import { DashboardModeService } from '../../../core/services/dashboard/dashboard
   styleUrl: './task-modal.component.scss'
 })
 export class TaskModalComponent implements OnInit {
-  @Input() modeDashboard: "admin" | "supervisor" | "inbound" | "outbond";
+  @Input() modeDashboard: "Admin" | "Supervisor" | "Inbound" | "Outbond";
   @Input() mode: "create" | "edit" = "create";
   @Input() taskData: Todo | null = null;
   @Output() modalChanged: EventEmitter<void> = new EventEmitter();
@@ -37,16 +37,17 @@ export class TaskModalComponent implements OnInit {
     this.modeDashboard = this.dbService.getDashboardMode();
     console.log(this.modeDashboard);
 
-    const isDisabled = this.modeDashboard.toLowerCase() === 'inbound' || this.modeDashboard.toLowerCase() === 'outbond';
+
+
 
     this.taskForm = this.fb.group({
-      title: [{ value: '', disabled: isDisabled }, [Validators.required]],
-      assigned_date: [{ value: '', disabled: isDisabled }, [Validators.required]],
-      due_date: [{ value: '', disabled: isDisabled }, [Validators.required]],
+      title: ['', [Validators.required]],
+      assigned_date: ['', [Validators.required]],
+      due_date: ['', [Validators.required]],
       status: ['Status', [Validators.required]],
-      priority: [{ value: 'Priority', disabled: isDisabled }, [Validators.required]],
-      user_id: [{ value: 'User', disabled: isDisabled }, [Validators.required]],
-      customer_id: [{ value: 'Customer', disabled: isDisabled }, [Validators.required]],
+      priority: ['Priority', [Validators.required]],
+      user_id: ['User', [Validators.required]],
+      customer_id: ['Customer', [Validators.required]],
     })
   }
 
@@ -62,6 +63,14 @@ export class TaskModalComponent implements OnInit {
       const assignedDate = this.changeToLocalString(this.taskData.assigned_date as Date);
       const dueDate = this.changeToLocalString(this.taskData.due_date as Date);
 
+      if (this.taskData.customer_id) {
+        this.taskData.customer_id.toString()
+
+      } else {
+        this.taskData.customer_id = 0;
+
+      }
+
       this.taskForm.patchValue({
         title: this.taskData.title,
         assigned_date: assignedDate,
@@ -69,7 +78,7 @@ export class TaskModalComponent implements OnInit {
         status: this.taskData.status,
         priority: this.taskData.priority,
         user_id: this.taskData.user_id.toString(),
-        customer_id: this.taskData.customer_id.toString()
+        customer_id: this.taskData.customer_id
       })
     }
 

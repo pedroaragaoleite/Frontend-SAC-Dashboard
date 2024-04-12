@@ -9,6 +9,7 @@ import { DatePipe, NgStyle } from '@angular/common';
 import { ProjectModalComponent } from './project-modal/project-modal.component';
 import { DashboardModeService } from '../../core/services/dashboard/dashboard-mode.service';
 import { SharedService } from '../../core/services/shared/shared.service';
+import { User } from '../../core/interfaces/user';
 
 @Component({
   selector: 'app-projects',
@@ -28,19 +29,25 @@ export class ProjectsComponent implements OnInit {
 
   projects: Project[] = [];
   project: Project | null = null;
+  loggedUserProjects: Project[] = [];
   brands: any[] = [];
 
   dates: Date[] = [];
 
-  dashboardMode: "admin" | "supervisor" | "inbound" | "outbond";
+  dashboardMode: "Admin" | "Supervisor" | "Inbound" | "Outbond";
   modalMode: "create" | "edit" = "create";
   showModal: boolean = false;
 
+  currentUser: any | null;
+
   constructor(private datePipe: DatePipe, private projectServices: ProjectsService, private dbService: DashboardModeService, private sharedServices: SharedService) {
     this.dashboardMode = this.dbService.getDashboardMode();
+
   }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+
     this.sharedServices.eventRefresh$.subscribe(() => {
       this.getProjects();
     })
@@ -78,10 +85,12 @@ export class ProjectsComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           this.projects = res.data;
-          // console.log(this.projects);
-          // console.log(this.projects[0].end_date);       
-
-
+          console.log(this.projects);
+          if (this.dashboardMode === 'Admin' || this.dashboardMode === 'Supervisor') {
+            this.loggedUserProjects = res.data;
+          } else {
+            this.loggedUserProjects = res.data.filter((project: any) => project.user_id === this.currentUser!.user!.id_user);
+          }
         },
         error: error => {
           console.error("Error fetching projects", error);

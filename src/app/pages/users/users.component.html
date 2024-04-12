@@ -3,16 +3,20 @@
     <div class="pb-5">
         <h2>Customers</h2>
     </div>
+    @if(this.dashboardMode === 'Admin' || this.dashboardMode === 'Supervisor') {
     <div class="users-btn flex gap-10 items-center">
         <button type="button" (click)="createUserModal()"
             class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Create
             User</button>
     </div>
+    }
+
     <div class="users-table">
         <div class="relative overflow-x-auto shadow-md rounded-lg border-white">
             <div
                 class="flex items-center justify-between flex-column  p-2 flex-wrap md:flex-row space-y-4 md:space-y-0 bg-white dark:bg-gray-900">
                 <div>
+                    @if(this.dashboardMode === 'Admin' || this.dashboardMode === 'Supervisor') {
                     <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction"
                         class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                         type="button">
@@ -41,6 +45,8 @@
                                 User</a>
                         </div>
                     </div>
+                    }
+
                 </div>
                 @if(showErrorDel) {
                 <div id="toast-danger"
@@ -102,9 +108,12 @@
                         <th scope="col" class="px-6 py-3">
                             Status
                         </th>
+                        @if(this.dashboardMode === 'Admin' || this.dashboardMode === 'Supervisor') {
                         <th scope="col" class="px-6 py-3">
                             Action
                         </th>
+                        }
+
                     </tr>
                 </thead>
                 <tbody>
@@ -137,6 +146,7 @@
                                     class="text-xs">Online</span>
                             </div>
                         </td>
+                        @if(this.dashboardMode === 'Admin' || this.dashboardMode === 'Supervisor') {
                         <td class="px-6 py-4">
                             <div class="edit-hoover relative">
                                 <button (click)="editUserModal(user)"
@@ -145,8 +155,8 @@
                                         [icon]="faPenSquare"></fa-icon></button>
                                 <span class="edit-hidden absolute">Edit</span>
                             </div>
-
                         </td>
+                        }
                     </tr>
                     }
 
