@@ -7,7 +7,20 @@ export function emailValidator(): ValidatorFn {
         const valid = emailRegex.test(control.value);
         // console.log(valid);
 
-        return valid ? null : { 'emailInvalid': { value: control.value } };
+        if(!control.value) {            
+            return { 'emailRequired': 'Email is required' }
+        }
+
+        return valid ? null : { 'emailInvalid': 'Plese insert a valid email' };
+    }
+}
+
+export function userValidation(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        if(!control.value) {            
+            return { 'usernameRequired': 'Username is required' }
+        }
+        return null;
     }
 }
 
@@ -25,4 +38,16 @@ export function passwordValidator(): ValidatorFn {
         }
         return null;
     };
+}
+
+export function selectValidator(): ValidatorFn{
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        
+        if (control.value === '' || control.value === 'Choose a role') {
+            console.log(control.value);
+            
+            return { 'selectedRequired': 'Selection is required' };
+        }
+        return null
+    }
 }

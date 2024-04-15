@@ -6,7 +6,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { UsersService } from '../../../core/services/users/users.service';
 import { map } from 'rxjs';
 import { SharedService } from '../../../core/services/shared/shared.service';
-import { emailValidator, passwordValidator } from '../../../validators/customValidator';
+import { emailValidator, passwordValidator, selectValidator, userValidation } from '../../../validators/customValidator';
 import { FormValidationsService } from '../../../core/services/formValidations/form-validations.service';
 
 @Component({
@@ -26,23 +26,25 @@ export class UserModalComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  validationErrors: string[] = [];
+  usernameValidationErrors: string[] = [];
+  emailValidationErrors: string[] = [];
+  passwordValidationErrors: string[] = [];
+  selectValidationErrors: string[] = [];
 
   constructor(private validationService: FormValidationsService, private cdRef: ChangeDetectorRef, private sharedServices: SharedService, private usersService: UsersService, private router: Router, private authService: AuthService, private fb: FormBuilder) {
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email, emailValidator()]],
-      role: ['Choose a role', [Validators.required]]
-    });
-
-    this.registerForm.controls['username'].statusChanges.subscribe(status => {
-      this.validationErrors = this.validationService.getUsernameMessages(this.registerForm.controls['username']);
-    })
+      username: ['', [Validators.minLength(3), userValidation()]],
+      email: ['', [Validators.email, emailValidator()]],
+      role: ['Choose a role', [Validators.required, selectValidator()]]
+    });  
   }
 
   ngOnInit(): void {
     this.formBasedOnMode();
     this.getRoles();
+
+   
+    this.formControl()
   }
 
   formBasedOnMode() {
@@ -53,8 +55,10 @@ export class UserModalComponent implements OnInit {
         role: this.userData.role
       });
     } else if (this.mode === 'create') {
-      this.registerForm.addControl('password', this.fb.control('', [Validators.required, Validators.minLength(8), passwordValidator()]));
+      this.registerForm.addControl('password', this.fb.control('', [Validators.minLength(8), passwordValidator()]));
     }
+
+    
   }
 
   getRoles(): any {
@@ -72,6 +76,23 @@ export class UserModalComponent implements OnInit {
       })
   }
 
+  formControl():void {
+    this.registerForm.controls['username'].statusChanges.subscribe(status => {
+      this.usernameValidationErrors = this.validationService.getUsernameMessages(this.registerForm.controls['username']);     
+    })
+
+    this.registerForm.controls['email'].statusChanges.subscribe(status => {
+      this.emailValidationErrors = this.validationService.getEmailMessages(this.registerForm.controls['email'])
+    });
+
+    this.registerForm.controls['password'].statusChanges.subscribe(status => {
+      this.passwordValidationErrors = this.validationService.getPasswordMessages(this.registerForm.controls['password']);
+    });
+
+    this.registerForm.controls['role'].statusChanges.subscribe(status => {
+      this.selectValidationErrors = this.validationService.getSelectMessages(this.registerForm.controls['role']);      
+    });
+  }
 
 
   closeModal() {
@@ -83,6 +104,8 @@ export class UserModalComponent implements OnInit {
 
   onSubmit(): void {
     this.isSubmitted = true;
+    console.log(this.registerForm.valid);
+    
     if (this.registerForm.valid) {
       let user = this.registerForm.value;
       let request$;

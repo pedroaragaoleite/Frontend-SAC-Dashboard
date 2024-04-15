@@ -12,15 +12,15 @@ export class FormValidationsService {
     if (!control.errors) return [];
 
     const messages: string[] = [];
-    const errors = control.errors;
+    const usernameErrors = control.errors;
 
-    if (errors['required']) {
-      messages.push('Username required');
+    if(usernameErrors['usernameRequired']){         
+      messages.push(usernameErrors['usernameRequired']);
     }
-    if (errors['minLength']) {
+
+    if (usernameErrors['minlength']) {      
       messages.push('Username minimium 3 characters')
     }
-
     return messages;
   }
 
@@ -28,16 +28,55 @@ export class FormValidationsService {
     if (!control.errors) return [];
 
     const messages: string[] = [];
-    const errors = control.errors;
+    const emailErrors = control.errors;
 
-    if (errors['required']) {
-      messages.push('Email required');
+       if (emailErrors['emailRequired']) {
+      messages.push(emailErrors['emailRequired']);
     }
-    if (errors['emailInvalid']) {
-      messages.push('Invalid email')
+
+    
+    if (emailErrors['emailInvalid']) {
+      messages.push(emailErrors['emailInvalid'])
+    }
+
+ 
+    return messages;
+  }
+
+  getPasswordMessages(control: AbstractControl): string[] {
+    if (!control.errors) return [];
+
+    const messages: string[] = [];
+    const passwordErrors = control.errors;
+
+    if(passwordErrors['required']) {
+      messages.push(passwordErrors['passwordRequired']);
+    }
+
+    if(passwordErrors['passwordLength']) {
+      messages.push(passwordErrors['passwordLength'])
+    }
+
+    if(passwordErrors['passwordContent']) {
+      messages.push(passwordErrors['passwordContent'])
+    }
+    return messages
+  }
+
+  getSelectMessages(control: AbstractControl): string[] {
+    if (!control.errors) return [];
+
+    const messages:string[] = [];
+    const selectErrors = control.errors;
+    console.log(selectErrors);
+    
+
+    if(selectErrors['selectedRequired']) {
+      console.log(selectErrors);
+      
+      messages.push(selectErrors['selectedRequired'])
     }
 
     return messages;
-
   }
 }
