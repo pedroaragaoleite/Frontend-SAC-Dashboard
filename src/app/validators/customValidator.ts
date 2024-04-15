@@ -11,7 +11,7 @@ export function emailValidator(): ValidatorFn {
             return { 'emailRequired': 'Email is required' }
         }
 
-        return valid ? null : { 'emailInvalid': 'Plese insert a valid email' };
+        return valid ? null : { 'emailInvalid': 'Please insert a valid email' };
     }
 }
 
@@ -43,9 +43,7 @@ export function passwordValidator(): ValidatorFn {
 export function selectValidator(): ValidatorFn{
     return (control: AbstractControl): { [key: string]: any } | null => {
         
-        if (control.value === '' || control.value === 'Choose a role') {
-            console.log(control.value);
-            
+        if (control.value === '' || control.value === 'Choose a role') {            
             return { 'selectedRequired': 'Selection is required' };
         }
         return null

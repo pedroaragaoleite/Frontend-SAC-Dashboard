@@ -10,9 +10,13 @@
                     placeholder="Username here..." formControlName="username" required />
                 @if((registerForm.get('username')?.touched || registerForm.get('username')?.dirty || isSubmitted) &&
                 registerForm.get('username')?.errors) {
-                @for(error of usernameValidationErrors; track $index) {
-                <p class="input-invalid">{{error}}</p>
-                }
+                    @if(registerForm.get('username')?.errors?.['usernameRequired']) {
+                        <p class="input-invalid">Username is necessary</p>
+                        }
+                        @if(registerForm.get('username')?.hasError('minlength') &&
+                        !registerForm.get('username')?.errors?.['usernameRequired']) {
+                        <p class="input-invalid">Minimiun 3 characters</p>
+                        }
                 }
             </div>
             <div class="mb-5">
@@ -23,9 +27,12 @@
                     placeholder="Your email here..." formControlName="email" required />
                 @if(registerForm.get('email')?.touched || registerForm.get('email')?.dirty || isSubmitted &&
                 registerForm.get('email')?.errors) {
-                @for(error of emailValidationErrors; track $index) {
-                <p class="input-invalid">{{error}}</p>
-                }
+                    @if(registerForm.get('email')?.errors?.['emailRequired']) {
+                        <p class="input-invalid">Email is necessary</p>
+                        }
+                        @if(validEmail && isSubmitted && !registerForm.get('email')?.errors?.['emailRequired']) {
+                        <p class="input-invalid">Email already in use</p>
+                        }
                 }
             </div>
             @if(mode === 'create') {

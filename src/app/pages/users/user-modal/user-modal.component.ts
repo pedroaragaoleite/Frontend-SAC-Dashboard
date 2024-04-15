@@ -22,6 +22,7 @@ export class UserModalComponent implements OnInit {
   @Output() modalChanged: EventEmitter<void> = new EventEmitter();
   isSubmitted: boolean = false;
   isInvalid: boolean = false;
+  validEmail: boolean = true;
   roles: any[] = [];
 
   registerForm: FormGroup;
@@ -37,14 +38,32 @@ export class UserModalComponent implements OnInit {
       email: ['', [Validators.email, emailValidator()]],
       role: ['Choose a role', [Validators.required, selectValidator()]]
     });  
+
+     
+
   }
 
   ngOnInit(): void {
     this.formBasedOnMode();
     this.getRoles();
 
-   
-    this.formControl()
+    // this.formControl();
+
+  
+  }
+
+  checkEmail(email:string):void {
+    this.authService.checkEmail(email)
+      .subscribe({
+        next: (res => {
+          if(res) {
+            this.validEmail = false;
+          }
+        }),
+        error: error => {
+          console.error(error);
+        }        
+      })
   }
 
   formBasedOnMode() {
@@ -76,23 +95,23 @@ export class UserModalComponent implements OnInit {
       })
   }
 
-  formControl():void {
-    this.registerForm.controls['username'].statusChanges.subscribe(status => {
-      this.usernameValidationErrors = this.validationService.getUsernameMessages(this.registerForm.controls['username']);     
-    })
+  // formControl():void {
+  //   this.registerForm.controls['username'].statusChanges.subscribe(() => {
+  //     this.usernameValidationErrors = this.validationService.getUsernameMessages(this.registerForm.controls['username']);     
+  //   })
 
-    this.registerForm.controls['email'].statusChanges.subscribe(status => {
-      this.emailValidationErrors = this.validationService.getEmailMessages(this.registerForm.controls['email'])
-    });
+  //   this.registerForm.controls['email'].statusChanges.subscribe(() => {
+  //     this.emailValidationErrors = this.validationService.getEmailMessages(this.registerForm.controls['email'])
+  //   });
 
-    this.registerForm.controls['password'].statusChanges.subscribe(status => {
-      this.passwordValidationErrors = this.validationService.getPasswordMessages(this.registerForm.controls['password']);
-    });
+  //   this.registerForm.controls['password'].statusChanges.subscribe(() => {
+  //     this.passwordValidationErrors = this.validationService.getPasswordMessages(this.registerForm.controls['password']);
+  //   });
 
-    this.registerForm.controls['role'].statusChanges.subscribe(status => {
-      this.selectValidationErrors = this.validationService.getSelectMessages(this.registerForm.controls['role']);      
-    });
-  }
+  //   this.registerForm.controls['role'].statusChanges.subscribe(() => {
+  //     this.selectValidationErrors = this.validationService.getSelectMessages(this.registerForm.controls['role']);      
+  //   });
+  // }
 
 
   closeModal() {
@@ -105,6 +124,12 @@ export class UserModalComponent implements OnInit {
   onSubmit(): void {
     this.isSubmitted = true;
     console.log(this.registerForm.valid);
+    if(this.registerForm.get('email')?.value) {
+      this.checkEmail(this.registerForm.get('email')?.value);
+    }
+    // this.checkEmail(this.registerForm.get('email')?.value);
+  
+    
     
     if (this.registerForm.valid) {
       let user = this.registerForm.value;

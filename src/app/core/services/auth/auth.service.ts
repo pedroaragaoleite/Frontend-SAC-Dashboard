@@ -64,6 +64,10 @@ export class AuthService {
     return this.http.post<User>(`${url}/auth/register`, user, httpOptions);
   }
 
+  checkEmail(email: string) {
+    return this.http.get(`${url}/users/email/${email}`)
+  }
+
   updateUser(user: User, id: any): Observable<User> {
     console.log(id);
 
