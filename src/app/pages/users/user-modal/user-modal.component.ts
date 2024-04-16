@@ -22,7 +22,7 @@ export class UserModalComponent implements OnInit {
   @Output() modalChanged: EventEmitter<void> = new EventEmitter();
   isSubmitted: boolean = false;
   isInvalid: boolean = false;
-  validEmail: boolean = true;
+  validEmail: boolean = false;
   roles: any[] = [];
 
   registerForm: FormGroup;
@@ -35,11 +35,11 @@ export class UserModalComponent implements OnInit {
   constructor(private validationService: FormValidationsService, private cdRef: ChangeDetectorRef, private sharedServices: SharedService, private usersService: UsersService, private router: Router, private authService: AuthService, private fb: FormBuilder) {
     this.registerForm = this.fb.group({
       username: ['', [Validators.minLength(3), userValidation()]],
-      email: ['', [Validators.email, emailValidator()]],
+      email: ['', [Validators.required, Validators.email, emailValidator()]],
       role: ['Choose a role', [Validators.required, selectValidator()]]
-    });  
+    });
 
-     
+
 
   }
 
@@ -49,22 +49,24 @@ export class UserModalComponent implements OnInit {
 
     // this.formControl();
 
-  
+
   }
 
-  checkEmail(email:string):void {
-    this.authService.checkEmail(email)
-      .subscribe({
-        next: (res => {
-          if(res) {
-            this.validEmail = false;
-          }
-        }),
-        error: error => {
-          console.error(error);
-        }        
-      })
-  }
+  // checkEmail(email: string): void {
+  //   this.authService.checkEmail(user, email)
+  //     .subscribe({
+  //       next: (res => {
+  //         if (res) {
+  //           this.validEmail = false;
+  //           console.log(res);
+
+  //         }
+  //       }),
+  //       error: error => {
+  //         console.error(error);
+  //       }
+  //     })
+  // }
 
   formBasedOnMode() {
     if (this.mode === 'edit' && this.userData) {
@@ -77,7 +79,7 @@ export class UserModalComponent implements OnInit {
       this.registerForm.addControl('password', this.fb.control('', [Validators.minLength(8), passwordValidator()]));
     }
 
-    
+
   }
 
   getRoles(): any {
@@ -123,34 +125,39 @@ export class UserModalComponent implements OnInit {
 
   onSubmit(): void {
     this.isSubmitted = true;
-    console.log(this.registerForm.valid);
-    if(this.registerForm.get('email')?.value) {
-      this.checkEmail(this.registerForm.get('email')?.value);
-    }
-    // this.checkEmail(this.registerForm.get('email')?.value);
-  
-    
-    
+
+
     if (this.registerForm.valid) {
       let user = this.registerForm.value;
-      let request$;
+      let request$: any;
 
-      if (this.mode === 'create') {
-        request$ = this.authService.registerUser(user);
-      } else if (this.mode === 'edit') {
-        const id = this.userData?.id_user;
+      this.authService.checkEmail(user.email as string)
+        .subscribe(emailChecked => {
 
-        if (!user.password) delete user.password;
-        request$ = this.authService.updateUser(user, id);
-      }
+          if (!emailChecked) {
+            this.validEmail = true;
 
-      request$?.subscribe({
-        next: () => {
-          this.sharedServices.notifyEventChange();
-          this.closeModal();
-        },
-        error: error => console.error("Error processing the request", error)
-      });
+            if (this.mode === 'create') {
+              request$ = this.authService.registerUser(user);
+            } else if (this.mode === 'edit') {
+              const id = this.userData?.id_user;
+
+              if (!user.password) delete user.password;
+              request$ = this.authService.updateUser(user, id);
+            }
+            request$?.subscribe({
+              next: () => {
+                this.sharedServices.notifyEventChange();
+                this.closeModal();
+              },
+              error: (error: any) => console.error("Error processing the request", error)
+            });
+          }
+        })
+
+
+
+
     }
   }
 }

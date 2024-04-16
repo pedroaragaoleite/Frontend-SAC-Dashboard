@@ -25,6 +25,8 @@ export class CustomersService {
   }
 
   addCustomer(customer: Customer): Observable<Customer> {
+    console.log(customer);
+
     return this.http.post<Customer>(`${url}/customers/register`, customer, httpOptions);
   }
 

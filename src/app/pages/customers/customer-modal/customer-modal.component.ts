@@ -57,6 +57,13 @@ export class CustomerModalComponent implements OnInit {
   onSubmit() {
     this.isSubmitted = true;
     console.log(this.customerForm.valid);
+    console.log(this.customerForm.value.name);
+    console.log(this.customerForm.value.email);
+    console.log(this.customerForm.value.address);
+    console.log(this.customerForm.value.city);
+    console.log(this.customerForm.value.postal_code);
+    console.log(this.customerForm.value.phone);
+
 
     if (this.customerForm.valid) {
       const customer: Customer = {
@@ -64,7 +71,7 @@ export class CustomerModalComponent implements OnInit {
         email: this.customerForm.value.email!,
         address: this.customerForm.value.address!,
         city: this.customerForm.value.city!,
-        postal_code: Number(this.customerForm.value.postal_code!),
+        postal_code: this.customerForm.value.postal_code!,
         phone: Number(this.customerForm.value.phone!)
       }
       const id = this.customerData?.id_customer;
