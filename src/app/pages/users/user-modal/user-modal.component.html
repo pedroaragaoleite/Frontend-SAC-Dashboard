@@ -30,13 +30,17 @@
                 @if(registerForm.get('email')?.errors?.['emailRequired']) {
                 <p class="input-invalid">Email is necessary</p>
                 }
-                @if(!validEmail && isSubmitted) {
+                @if(registerForm.get('email')?.hasError?.('email') &&
+                !this.registerForm.get('email')?.errors?.['emailRequired']) {
+                <p class="input-invalid">Please use a valid email</p>
+                }
+                @if(!validEmail && isSubmitted && !registerForm.get('email')?.errors?.['emailRequired']) {
                 <p class="input-invalid">Email already in use</p>
                 }
                 }
             </div>
             @if(mode === 'create') {
-            <div class="mb-5">
+            <div class="mb-8">
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                     password</label>
                 <input type="password" id="password"
@@ -45,13 +49,23 @@
 
                 @if(registerForm.get('password')?.touched || registerForm.get('password')?.dirty || isSubmitted &&
                 registerForm.get('password')?.errors) {
-                @for(error of passwordValidationErrors; track $index) {
-                <p class="input-invalid">{{error}}</p>
+                @if(registerForm.get('password')?.errors?.['passwordRequired']) {
+                <p class="input-invalid">Password is necessary</p>
+                }
+                @if(registerForm.get('password')?.hasError?.('passwordLength') &&
+                !registerForm.get('password')?.errors?.['passwordRequired'])
+                {
+                <p class="input-invalid">Password should be at least 8 characters</p>
+                }
+                @if(registerForm.get('password')?.hasError?.('passwordContent') &&
+                !registerForm.get('password')?.errors?.['passwordRequired'])
+                {
+                <p class="input-invalid">Password must include uppercase, lowercase, and numeric characters</p>
                 }
                 }
             </div>
             }
-            <div class="mb-5">
+            <div class="mb-6">
                 <label for="roles" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an
                     option</label>
                 <select id="roles" formControlName="role"
@@ -63,8 +77,8 @@
                 </select>
                 @if(registerForm.get('role')?.touched || registerForm.get('role')?.dirty || isSubmitted &&
                 registerForm.get('role')?.errors) {
-                @for(error of selectValidationErrors; track $index) {
-                <p class="input-invalid">{{error}}</p>
+                @if(registerForm.get('role')?.errors?.['selectedRequired']) {
+                <p class="input-invalid">Role is necessary</p>
                 }
                 }
             </div>
