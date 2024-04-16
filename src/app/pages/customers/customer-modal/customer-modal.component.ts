@@ -2,9 +2,10 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } fro
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../core/services/shared/shared.service';
-
+import { emailValidator, phoneValidator, postalCodeValidator, selectValidator, userValidation } from '../../../validators/customValidator';
 import { Customer } from '../../../core/interfaces/customer';
 import { CustomersService } from '../../../core/services/customers/customers.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -21,8 +22,16 @@ export class CustomerModalComponent implements OnInit {
   @Output() modalChanged: EventEmitter<void> = new EventEmitter();
 
   isSubmitted: boolean = false;
+  validEmail: boolean = false;
 
-  constructor(private cdRef: ChangeDetectorRef, private sharedServices: SharedService, private customerServices: CustomersService, private router: Router, private fb: FormBuilder) { }
+  private emailChange?: Subscription;
+
+  constructor(private cdRef: ChangeDetectorRef, private sharedServices: SharedService, private customerServices: CustomersService, private router: Router, private fb: FormBuilder) {
+    this.emailChange = this.customerForm.get('email')?.valueChanges.subscribe((value) => {
+      this.validEmail = true;
+    })
+
+  }
 
   ngOnInit(): void {
     if (this.mode === "edit" && this.customerData) {
@@ -39,13 +48,17 @@ export class CustomerModalComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.emailChange?.unsubscribe();
+  }
+
   customerForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(5)]],
-    email: ['', [Validators.required, Validators.email]],
-    address: ['', [Validators.required]],
-    city: ['', [Validators.required, Validators.minLength(3)]],
-    postal_code: ['', [Validators.required, Validators.minLength(5), Validators.pattern('^[0-9]{5}(-[0-9]{4})?$')]],
-    phone: ['', [Validators.required, Validators.pattern('^[0-9+\-\s]*$'), Validators.minLength(9), Validators.maxLength(15)]],
+    name: ['', [Validators.minLength(3), userValidation()]],
+    email: ['', [Validators.email, emailValidator()]],
+    address: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
+    city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    postal_code: ['', [postalCodeValidator()]],
+    phone: ['', [phoneValidator()]],
   });
 
   closeModal() {
@@ -56,14 +69,10 @@ export class CustomerModalComponent implements OnInit {
 
   onSubmit() {
     this.isSubmitted = true;
-    console.log(this.customerForm.valid);
-    console.log(this.customerForm.value.name);
-    console.log(this.customerForm.value.email);
-    console.log(this.customerForm.value.address);
-    console.log(this.customerForm.value.city);
-    console.log(this.customerForm.value.postal_code);
-    console.log(this.customerForm.value.phone);
 
+    if (!this.customerForm.valid) {
+      return console.log("Customer form not valid");
+    }
 
     if (this.customerForm.valid) {
       const customer: Customer = {
@@ -83,6 +92,9 @@ export class CustomerModalComponent implements OnInit {
         next: () => {
           this.sharedServices.notifyEventChange();
           this.closeModal();
+        },
+        error: error => {
+          console.log("Customer already registered");
         }
       })
     }

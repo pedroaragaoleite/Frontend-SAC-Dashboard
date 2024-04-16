@@ -59,14 +59,9 @@ export class AuthService {
   }
 
   registerUser(user: User): Observable<User> {
-    return this.http.post<User>(`${url}/auth/register`, user, httpOptions);
-  }
+    console.log(user);
 
-  checkEmail(email: string): Observable<boolean> {
-    return this.http.get<User[]>(`${url}/users/email/${email}`, httpOptions)
-      .pipe(
-        map(users => users.length > 0)
-      )
+    return this.http.post<User>(`${url}/auth/register`, user, httpOptions);
   }
 
   updateUser(user: User, id: any): Observable<User> {

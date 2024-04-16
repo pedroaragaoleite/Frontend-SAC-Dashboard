@@ -8,6 +8,16 @@
                 <input type="text" id="name"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Company name here..." formControlName="name" required />
+                @if((customerForm.get('name')?.touched || customerForm.get('name')?.dirty || isSubmitted) &&
+                customerForm.get('name')?.errors) {
+                @if(customerForm.get('name')?.errors?.['usernameRequired']) {
+                <p class="input-invalid">Customer name is necessary</p>
+                }
+                @if(customerForm.get('name')?.hasError('minlength') &&
+                !customerForm.get('name')?.errors?.['usernameRequired']) {
+                <p class="input-invalid">Minimiun 3 characters</p>
+                }
+                }
             </div>
             <div class="mb-5">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Customer
@@ -15,6 +25,19 @@
                 <input type="email" id="email"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Your email here..." formControlName="email" required />
+                @if(customerForm.get('email')?.touched || customerForm.get('email')?.dirty || isSubmitted &&
+                customerForm.get('email')?.errors) {
+                @if(customerForm.get('email')?.errors?.['emailRequired']) {
+                <p class="input-invalid">Email is necessary</p>
+                }
+                @if(customerForm.get('email')?.hasError?.('email') &&
+                !this.customerForm.get('email')?.errors?.['emailRequired']) {
+                <p class="input-invalid">Please use a valid email</p>
+                }
+                @if(!validEmail && isSubmitted && !customerForm.get('email')?.errors?.['emailRequired']) {
+                <p class="input-invalid">Email already in use</p>
+                }
+                }
             </div>
             <div class="mb-5">
                 <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Customer
@@ -22,6 +45,20 @@
                 <input type="text" id="address"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     formControlName="address" required />
+                @if(customerForm.get('address')?.touched || customerForm.get('address')?.dirty || isSubmitted &&
+                customerForm.get('address')?.errors) {
+                @if(customerForm.get('address')?.errors?.['required']) {
+                <p class="input-invalid">Address is necessary</p>
+                }
+                @if(customerForm.get('address')?.hasError?.('minlength') &&
+                !this.customerForm.get('address')?.errors?.['required']) {
+                <p class="input-invalid">Address should be at least 10 characters</p>
+                }
+                @if(customerForm.get('address')?.hasError?.('maxlength') &&
+                !this.customerForm.get('address')?.errors?.['required']) {
+                <p class="input-invalid">Address shouldn't have more than 200 characters</p>
+                }
+                }
             </div>
             <div class="mb-5">
                 <div class="flex gap-3">
@@ -31,6 +68,20 @@
                         <input type="text" id="city"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             formControlName="city" required />
+                        @if(customerForm.get('city')?.touched || customerForm.get('city')?.dirty || isSubmitted &&
+                        customerForm.get('city')?.errors) {
+                        @if(customerForm.get('city')?.errors?.['required']) {
+                        <p class="input-invalid">City is necessary</p>
+                        }
+                        @if(customerForm.get('city')?.hasError?.('minlength') &&
+                        !this.customerForm.get('city')?.errors?.['required']) {
+                        <p class="input-invalid">City should be at least 3 characters</p>
+                        }
+                        @if(customerForm.get('city')?.hasError?.('maxlength') &&
+                        !this.customerForm.get('city')?.errors?.['required']) {
+                        <p class="input-invalid">City shouldn't have more than 50 characters</p>
+                        }
+                        }
                     </div>
                     <div>
                         <label for="postal_code"
@@ -39,15 +90,39 @@
                         <input type="text" id="postal_code"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             formControlName="postal_code" required />
+                        @if(customerForm.get('postal_code')?.touched || customerForm.get('postal_code')?.dirty ||
+                        isSubmitted &&
+                        customerForm.get('postal_code')?.errors) {
+                        @if(customerForm.get('postal_code')?.errors?.['postalCodeRequired']) {
+                        <p class="input-invalid">Postal code is required</p>
+                        }
+
+                        @if(customerForm.get('postal_code')?.hasError?.('postalCodePattern') &&
+                        !this.customerForm.get('postal_code')?.errors?.['postalCodeRequired']) {
+                        <p class="input-invalid">Please use a valid postal code</p>
+                        }
+                        }
+
                     </div>
                 </div>
             </div>
-            <div class="mb-5">
+            <div class="mb-6">
                 <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
                     number</label>
                 <input type="number" id="phone"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     formControlName="phone" required />
+                @if(customerForm.get('phone')?.touched || customerForm.get('phone')?.dirty || isSubmitted &&
+                customerForm.get('phone')?.errors) {
+                @if(customerForm.get('phone')?.errors?.['phoneRequired']) {
+                <p class="input-invalid">Phone number is required</p>
+                }
+
+                @if(customerForm.get('phone')?.hasError?.('phonePattern') &&
+                !this.customerForm.get('phone')?.errors?.['phoneRequired']) {
+                <p class="input-invalid">Phone number must have 9 numbers</p>
+                }
+                }
             </div>
             <button type="submit" (click)="onSubmit()"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>

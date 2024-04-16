@@ -22,15 +22,10 @@ export class UserModalComponent implements OnInit {
   @Output() modalChanged: EventEmitter<void> = new EventEmitter();
   isSubmitted: boolean = false;
   isInvalid: boolean = false;
-  validEmail: boolean = false;
+  validEmail: boolean = true;
   roles: any[] = [];
 
   registerForm: FormGroup;
-
-  usernameValidationErrors: string[] = [];
-  emailValidationErrors: string[] = [];
-  passwordValidationErrors: string[] = [];
-  selectValidationErrors: string[] = [];
 
   private emailChange?: Subscription;
 
@@ -50,10 +45,6 @@ export class UserModalComponent implements OnInit {
   ngOnInit(): void {
     this.formBasedOnMode();
     this.getRoles();
-
-    // this.formControl();
-
-
   }
 
   ngOnDestroy() {
@@ -70,8 +61,6 @@ export class UserModalComponent implements OnInit {
     } else if (this.mode === 'create') {
       this.registerForm.addControl('password', this.fb.control('', [Validators.minLength(8), passwordValidator()]));
     }
-
-
   }
 
   getRoles(): any {
@@ -95,54 +84,33 @@ export class UserModalComponent implements OnInit {
     this.registerForm.reset();
     this.modalChanged.emit();
     this.cdRef.detectChanges();
-    // console.log(this.modalChanged);
   }
 
   onSubmit(): void {
     this.isSubmitted = true;
+    if (this.registerForm.valid) {
+      const user = this.registerForm.value;
+      console.log(user.email);
+      this.validEmail = true;
+      const id = this.userData?.id_user;
+      const request$ = this.mode === 'create' ?
+        this.authService.registerUser(user) : this.authService.updateUser(user, id)
 
 
-    if (!this.registerForm.valid) {
-      return console.log("Form not valid");
+      request$?.subscribe({
+        next: () => {
+          this.sharedServices.notifyEventChange();
+          this.closeModal();
+        },
+        error: (error: any) => {
+          console.error("Error processing the request", error);
+          this.validEmail = false;
+        }
+      });
 
     }
 
-    const user = this.registerForm.value;
-    let request$: any;
 
-
-    this.authService.checkEmail(user.email as string).pipe(
-      switchMap(emailChecked => {
-        if (!emailChecked) {
-          this.validEmail = false;
-          return of(null);
-        }
-        this.validEmail = true;
-        if (this.mode === 'create') {
-          request$ = this.authService.registerUser(user);
-        } else if (this.mode === 'edit') {
-          const id = this.userData?.id_user;
-
-          if (!user.password) delete user.password;
-          request$ = this.authService.updateUser(user, id);
-        }
-        return of(null)
-      }),
-      catchError(error => {
-        console.error("Error processing the request", error);
-        return of(null);
-      })
-    ).subscribe({
-      next: result => {
-        if (result) {
-          this.sharedServices.notifyEventChange();
-          this.closeModal();
-        } else {
-          console.error("Operation was not successful");
-        }
-      },
-      error: err => console.error("Unexpected error", err)
-    })
   }
 }
 

@@ -2,7 +2,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Customer } from '../../interfaces/customer';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -39,5 +39,14 @@ export class CustomersService {
   deleteCustomer(customer: any): Observable<any> {
     const id = customer.id_customer;
     return this.http.delete<any>(`${url}/customers/delete/${id}`, httpOptions);
+  }
+
+  checkEmail(email: string): Observable<boolean> {
+    console.log(email);
+
+    return this.http.get<Customer[]>(`${url}/customers/email/${email}`, httpOptions)
+      .pipe(
+        map(customers => customers.length > 0)
+      )
   }
 }

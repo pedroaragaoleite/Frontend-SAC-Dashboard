@@ -3,11 +3,11 @@ import { AbstractControl, ValidatorFn } from "@angular/forms";
 
 export function emailValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-        const emailRegex = /^(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?<![_.-])$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const valid = emailRegex.test(control.value);
         // console.log(valid);
 
-        if(!control.value) {            
+        if (!control.value) {
             return { 'emailRequired': 'Email is required' }
         }
 
@@ -17,7 +17,7 @@ export function emailValidator(): ValidatorFn {
 
 export function userValidation(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-        if(!control.value) {            
+        if (!control.value) {
             return { 'usernameRequired': 'Username is required' }
         }
         return null;
@@ -40,11 +40,40 @@ export function passwordValidator(): ValidatorFn {
     };
 }
 
-export function selectValidator(): ValidatorFn{
+export function selectValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-        
-        if (control.value === '' || control.value === 'Choose a role') {            
+
+        if (control.value === '' || control.value === 'Choose a role') {
             return { 'selectedRequired': 'Selection is required' };
+        }
+        return null
+    }
+}
+
+export function phoneValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        const phoneRegex = /^[69][0-9]{8}$/;
+        const valid = phoneRegex.test(control.value)
+
+        if (!control.value) {
+            return { 'phoneRequired': 'Phone is required' }
+        }
+        if (!valid) {
+            return { 'phonePattern': 'Phone number invalid' }
+        }
+        return null
+    }
+}
+export function postalCodeValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+        const postalCodeRegex = /^[0-9]{5}$/;
+        const valid = postalCodeRegex.test(control.value)
+
+        if (!control.value) {
+            return { 'postalCodeRequired': 'Postal code is required' }
+        }
+        if (!valid) {
+            return { 'postalCodePattern': 'Postal code invalid' }
         }
         return null
     }

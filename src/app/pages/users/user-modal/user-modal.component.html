@@ -34,7 +34,7 @@
                 !this.registerForm.get('email')?.errors?.['emailRequired']) {
                 <p class="input-invalid">Please use a valid email</p>
                 }
-                @if(!validEmail && isSubmitted && !registerForm.get('email')?.errors?.['emailRequired']) {
+                @if(!validEmail && isSubmitted) {
                 <p class="input-invalid">Email already in use</p>
                 }
                 }
