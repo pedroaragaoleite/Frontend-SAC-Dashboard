@@ -30,7 +30,7 @@
                 @if(registerForm.get('email')?.errors?.['emailRequired']) {
                 <p class="input-invalid">Email is necessary</p>
                 }
-                @if(validEmail && isSubmitted && !registerForm.get('email')?.errors?.['emailRequired']) {
+                @if(!validEmail && isSubmitted) {
                 <p class="input-invalid">Email already in use</p>
                 }
                 }
