@@ -24,6 +24,8 @@ export class CustomerModalComponent implements OnInit {
   isSubmitted: boolean = false;
   validEmail: boolean = false;
 
+  successCreateCustomer: boolean = false;
+
   private emailChange?: Subscription;
 
   constructor(private cdRef: ChangeDetectorRef, private sharedServices: SharedService, private customerServices: CustomersService, private router: Router, private fb: FormBuilder) {
@@ -67,6 +69,10 @@ export class CustomerModalComponent implements OnInit {
     this.cdRef.detectChanges();
   }
 
+  closeToast(): void {
+    this.successCreateCustomer = !this.successCreateCustomer;
+  }
+
   onSubmit() {
     this.isSubmitted = true;
 
@@ -91,7 +97,10 @@ export class CustomerModalComponent implements OnInit {
       request$.subscribe({
         next: () => {
           this.sharedServices.notifyEventChange();
-          this.closeModal();
+          this.successCreateCustomer = true;
+          setTimeout(() => {
+            this.closeModal();            
+          }, 1000);
         },
         error: error => {
           console.log("Customer already registered");

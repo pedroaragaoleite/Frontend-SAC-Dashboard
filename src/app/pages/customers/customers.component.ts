@@ -47,6 +47,7 @@ export class CustomersComponent implements OnInit {
   showCustomer: boolean = false;
 
   showErrorDel: boolean = false;
+  showDelSuccess : boolean = false;
 
 
   constructor(private http: HttpClient, private todoServices: TodoService, private sharedServices: SharedService, private dbService: DashboardModeService, private customerServices: CustomersService) {
@@ -82,8 +83,6 @@ export class CustomersComponent implements OnInit {
         next: (res: any) => {
           this.customers = res.data;
           this.allCustomers = [...this.customers];
-          console.log(res);
-
         },
         error: error => {
           console.error("Error getting customers", error)
@@ -114,7 +113,6 @@ export class CustomersComponent implements OnInit {
   delCustomer() {
     this.actionCustomers.forEach(customer => {
       const checkUserTasks = this.tasks.filter((task: any) => task.customer_id === customer.id_customer);
-      console.log(checkUserTasks);
       if (checkUserTasks.length >= 1) {
         this.showErrorDel = true;
         return;
@@ -122,8 +120,13 @@ export class CustomersComponent implements OnInit {
       this.customerServices.deleteCustomer(customer)
         .subscribe({
           next: () => {
+            this.showDelSuccess = true;
             this.getCustomers();
             this.actionCustomers = [];
+            setTimeout(() => {
+              this.showDelSuccess = false;
+              
+            }, 2000);
           },
           error: error => {
             console.error("Error deleting customer", error);
@@ -134,6 +137,10 @@ export class CustomersComponent implements OnInit {
 
   closeToast(): void {
     this.showErrorDel = !this.showErrorDel;
+  }
+  closeSuccessToast(): void {
+    this.showDelSuccess = !this.showDelSuccess;
+    
   }
 
   toggleModal() {
@@ -153,8 +160,6 @@ export class CustomersComponent implements OnInit {
     } else {
       this.actionCustomers = this.actionCustomers.filter(c => c.id_customer !== customer.id_customer)
     }
-    console.log(this.actionCustomers);
-
   }
 
   viewCustomerModal(customer: Customer): void {
