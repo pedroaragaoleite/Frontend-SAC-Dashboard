@@ -32,6 +32,7 @@ export class UsersComponent implements OnInit {
   showModal: boolean = false;
 
   showErrorDel: boolean = false;
+  showDelSuccess : boolean = false;
 
   users: User[] = [];
   user: User | null = null;
@@ -96,6 +97,11 @@ export class UsersComponent implements OnInit {
     this.showErrorDel = !this.showErrorDel;
   }
 
+  closeSuccessToast(): void {
+    this.showDelSuccess = !this.showDelSuccess;
+    
+  }
+
   toggleModal() {
     this.showModal = !this.showModal;
   }
@@ -145,8 +151,13 @@ export class UsersComponent implements OnInit {
       .subscribe({
         next: () => {
           console.log("User deleted.");
+          this.showDelSuccess = true;         
           this.getUsers();
           this.actionUsers = [];
+          setTimeout(() => {
+            this.showDelSuccess = false;
+            
+          }, 2000);
         },
         error: error => {
           console.error("Error making the delete", error)
