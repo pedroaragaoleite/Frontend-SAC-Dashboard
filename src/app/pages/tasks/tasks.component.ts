@@ -31,7 +31,7 @@ export class TasksComponent implements OnInit {
   faPenSquare = faPenSquare;
 
   //Dashboard config
-  dashboardMode: "Admin" | "Supervisor" | "Inbound" | "Outbond";
+  dashboardMode: "Admin" | "Supervisor" | "Inbound" | "Outbound";
   //Search config
   allTasks: Todo[] = [];
   actionTasks: Todo[] = [];

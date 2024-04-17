@@ -29,8 +29,8 @@ describe('CustomersComponent', () => {
 
   it('should get customers on init', (done) => {
     const mockCustomers: Customer[] = [
-      { id_customer: 1, name: 'John Doe', email: 'john.doe@example.com', address: "calle barcelona", city: "barcelona", postal_code: 83000, phone: 666666666 },
-      { id_customer: 2, name: 'Jane Doe', email: 'jane.doe@example.com', address: "calle barcelona", city: "barcelona", postal_code: 83000, phone: 666666666 },
+      { id_customer: 1, name: 'John Doe', email: 'john.doe@example.com', address: "calle barcelona", city: "barcelona", postal_code: "83000", phone: 666666666 },
+      { id_customer: 2, name: 'Jane Doe', email: 'jane.doe@example.com', address: "calle barcelona", city: "barcelona", postal_code: "83000", phone: 666666666 },
     ];
 
     spyOn(customerService, 'getCustomers').and.returnValue(of(mockCustomers));

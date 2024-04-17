@@ -82,7 +82,10 @@
 
                                 }
                                 <span>
-                                    {{currentUser.user.name}}
+                                    @if(this.dashboardMode === 'Inbound' || this.dashboardMode === 'Outbound') {
+                                        {{currentUser.user.name}}
+                                    }
+                                    
                                 </span>
                                 <!-- <div class="projects-img">
                                     <img class="mb-3 rounded-full shadow-lg ps-5" src="../../../assets/login pic.webp"

@@ -18,7 +18,7 @@ import { DashboardModeService } from '../../../core/services/dashboard/dashboard
   styleUrl: './task-modal.component.scss'
 })
 export class TaskModalComponent implements OnInit {
-  @Input() modeDashboard: "Admin" | "Supervisor" | "Inbound" | "Outbond";
+  @Input() modeDashboard: "Admin" | "Supervisor" | "Inbound" | "Outbound";
   @Input() mode: "create" | "edit" = "create";
   @Input() taskData: Todo | null = null;
   @Output() modalChanged: EventEmitter<void> = new EventEmitter();

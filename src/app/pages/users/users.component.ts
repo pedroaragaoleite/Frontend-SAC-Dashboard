@@ -26,7 +26,7 @@ export class UsersComponent implements OnInit {
   faEye = faEye;
   faPenSquare = faPenSquare;
 
-  dashboardMode: "Admin" | "Supervisor" | "Inbound" | "Outbond";
+  dashboardMode: "Admin" | "Supervisor" | "Inbound" | "Outbound";
   modalMode: "create" | "edit" = "create";
 
   showModal: boolean = false;

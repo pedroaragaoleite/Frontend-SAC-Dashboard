@@ -7,7 +7,7 @@ export class DashboardModeService {
 
   user: any;
 
-  getDashboardMode(): "Admin" | "Supervisor" | "Inbound" | "Outbond" {
+  getDashboardMode(): "Admin" | "Supervisor" | "Inbound" | "Outbound" {
     const user = localStorage.getItem('user');
     if (user) {
       // console.log(user);

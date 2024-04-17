@@ -34,7 +34,7 @@ export class ProjectsComponent implements OnInit {
 
   dates: Date[] = [];
 
-  dashboardMode: "Admin" | "Supervisor" | "Inbound" | "Outbond";
+  dashboardMode: "Admin" | "Supervisor" | "Inbound" | "Outbound";
   modalMode: "create" | "edit" = "create";
   showModal: boolean = false;
 
@@ -47,6 +47,9 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+
+    console.log(this.dashboardMode);
+    
 
     this.sharedServices.eventRefresh$.subscribe(() => {
       this.getProjects();
@@ -85,7 +88,6 @@ export class ProjectsComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           this.projects = res.data;
-          console.log(this.projects);
           if (this.dashboardMode === 'Admin' || this.dashboardMode === 'Supervisor') {
             this.loggedUserProjects = res.data;
           } else {
