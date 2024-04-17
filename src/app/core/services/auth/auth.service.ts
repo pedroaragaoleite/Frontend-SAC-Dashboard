@@ -59,21 +59,15 @@ export class AuthService {
   }
 
   registerUser(user: User): Observable<User> {
-    console.log(user);
-
-    return this.http.post<User>(`${url}/auth/register`, user, httpOptions);
+     return this.http.post<User>(`${url}/auth/register`, user, httpOptions);
   }
 
   updateUser(user: User, id: any): Observable<User> {
-    console.log(id);
-
     return this.http.put<User>(`${url}/users/${id}`, user, httpOptions);
   }
 
   deleteUser(user: any): Observable<any> {
     const id = user.id_user;
-    console.log(id);
-
     return this.http.delete<any>(`${url}/delete/${id}`, httpOptions)
   }
 

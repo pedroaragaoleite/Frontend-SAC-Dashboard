@@ -25,6 +25,9 @@ export class UserModalComponent implements OnInit {
   validEmail: boolean = true;
   roles: any[] = [];
 
+  successCreateUser: boolean = false;
+
+
   registerForm: FormGroup;
 
   private emailChange?: Subscription;
@@ -78,7 +81,9 @@ export class UserModalComponent implements OnInit {
       })
   }
 
-
+  closeToast(): void {
+    this.successCreateUser = !this.successCreateUser;
+  }
 
   closeModal() {
     this.registerForm.reset();
@@ -90,7 +95,6 @@ export class UserModalComponent implements OnInit {
     this.isSubmitted = true;
     if (this.registerForm.valid) {
       const user = this.registerForm.value;
-      console.log(user.email);
       this.validEmail = true;
       const id = this.userData?.id_user;
       const request$ = this.mode === 'create' ?
@@ -100,7 +104,11 @@ export class UserModalComponent implements OnInit {
       request$?.subscribe({
         next: () => {
           this.sharedServices.notifyEventChange();
-          this.closeModal();
+          this.successCreateUser = true;
+          setInterval(() => {
+            this.closeModal();
+          }, 1000)  
+          
         },
         error: (error: any) => {
           console.error("Error processing the request", error);
