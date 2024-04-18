@@ -48,9 +48,6 @@ export class ProjectsComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem('user') || 'null');
 
-    console.log(this.dashboardMode);
-    
-
     this.sharedServices.eventRefresh$.subscribe(() => {
       this.getProjects();
     })
@@ -74,24 +71,50 @@ export class ProjectsComponent implements OnInit {
     this.showModal = !this.showModal;
   }
 
-  getColor(data: string): string {
-    if (data === 'active') {
-      return '#84E1BC';
-    } else if (data === 'inactive') {
-      return '#FACA15';
+  getColor(start_date: Date, end_date: Date) {       
+    const dateNow = new Date();
+    
+    let startDateString = this.datePipe.transform(start_date, 'yyyy-MM-ddTHH:mm')
+    let endDateString = this.datePipe.transform(end_date, 'yyyy-MM-ddTHH:mm')
+    let currentDateString = this.datePipe.transform(dateNow, 'yyyy-MM-ddTHH:mm');
+    
+    
+    let startDate = startDateString ? new Date(startDateString) : null;
+    let endDate = endDateString ? new Date(endDateString) : null;
+    let currentDate = currentDateString ? new Date(currentDateString) : null;  
+    
+    if(endDate && currentDate) {
+      const months = (endDate.getFullYear() - currentDate.getFullYear()) * 12 + (endDate.getMonth() - currentDate.getMonth())
+      if (endDate! > currentDate!) {
+        if(months < 3 )
+        return '#84E1BC';
+      } 
+      if (months >= 3) {
+        return '#FACA15';
+      }      
     }
-    return 'rgb(243 128 128)';
+    return '#F38080';    
+  }
+
+  projectSortDate(data: any): void {
+    this.projects = data.sort((a:any, b: any) => {
+      const dateA: any = new Date(a.start_date)
+      const dateB: any = new Date(b.start_date)
+
+      return dateB - dateA
+    });
   }
 
   getProjects(): void {
     this.projectServices.getProjects()
       .subscribe({
         next: (res: any) => {
-          this.projects = res.data;
+            this.projectSortDate(res.data);         
+          
           if (this.dashboardMode === 'Admin' || this.dashboardMode === 'Supervisor') {
-            this.loggedUserProjects = res.data;
+            this.loggedUserProjects = this.projects;
           } else {
-            this.loggedUserProjects = res.data.filter((project: any) => project.user_id === this.currentUser!.user!.id_user);
+            this.loggedUserProjects = this.projects.filter((project: any) => project.user_id === this.currentUser!.user!.id_user);
           }
         },
         error: error => {

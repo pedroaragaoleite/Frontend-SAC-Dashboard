@@ -55,7 +55,7 @@
                             {{project.title}}
                         </h3>
                         <div class="pe-5">
-                            <span [ngStyle]="{'background-color': getColor(project.status)}"
+                            <span [ngStyle]="{'background-color': getColor(project.end_date, project.start_date)}"
                                 class="text-xs bg-green-300 ps-2 pt-1 pb-1 pe-2 rounded">{{project.status}}</span>
                         </div>
 
